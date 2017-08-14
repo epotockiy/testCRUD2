@@ -18,20 +18,18 @@ export class CrudService {
       .catch(this.handleError);
   }
 
-  postTweets(tweets: Tweet[]): Observable<any> {
+  addTweet(tweet: Tweet): Observable<any> {
     const url = `http://jsonplaceholder.typicode.com/posts`;
-    const body = JSON.stringify({ tweets: tweets });
 
-    return this._http.post(url, body, { headers: contentHeaders })
+    return this._http.post(url, JSON.stringify(tweet), { headers: contentHeaders })
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
 
   updateTweet(id: number, tweet: Tweet): Observable<any> {
     const url = `http://jsonplaceholder.typicode.com/posts/${id}`;
-    const body = JSON.stringify(tweet);
 
-    return this._http.put(url, body, { headers: contentHeaders })
+    return this._http.put(url, JSON.stringify(tweet), { headers: contentHeaders })
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }

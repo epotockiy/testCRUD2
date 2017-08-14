@@ -8,48 +8,23 @@ import { Tweet } from './models/tweet';
   styleUrls: ['./crud.component.scss']
 })
 export class CrudComponent implements OnInit {
+  tweetList: Tweet[];
 
   constructor(private _crudService: CrudService) { }
 
   ngOnInit() {
-  }
-
-  onGetTest() {
     this._crudService.getTweets()
       .subscribe(
         data => {
-          console.log(data);
+          this.tweetList = data;
+        },
+        error => {
+          console.log(error);
         }
       );
   }
 
-  onPostTest() {
-    const tweet: Tweet[] = [{title: 'asd1', id: 1, userId: 3, body: 'wqefw###ef'}];
-    this._crudService.postTweets(tweet)
-      .subscribe(
-        data => {
-          console.log(data);
-        }
-      );
-  }
-
-
-  onUpdateTest() {
-    const tweet: Tweet = {title: 'asd2', id: 2, userId: 3, body: 'wqefwef'};
-    this._crudService.updateTweet(2, tweet)
-      .subscribe(
-        data => {
-          console.log(data);
-        }
-      );
-  }
-
-  onDeleteTest() {
-    this._crudService.deleteTweet(5)
-      .subscribe(
-        data => {
-          console.log(data);
-        }
-      );
+  onAddNewTweet(tweet) {
+    this.tweetList.unshift(tweet);
   }
 }

@@ -1,11 +1,12 @@
-<p>
-  crud works!
-</p>
+<div class="container">
+  <app-add-form (addNewTweet)="onAddNewTweet($event)"></app-add-form>
 
-<button (click)="onGetTest()">GET</button>
-<button (click)="onPostTest()">POST</button>
-<button (click)="onUpdateTest()">UPDATE</button>
-<button (click)="onDeleteTest()">DELETE</button>
-
-<app-add-form></app-add-form>
-<app-tweet></app-tweet>
+  <div class="row">
+    <div class="col-md-8 mr-auto ml-auto">
+      <app-tweet *ngFor="let tweet of tweetList"
+                 [title]="tweet.title"
+                 [body]="tweet.body">
+      </app-tweet>
+    </div>
+  </div>
+</div>

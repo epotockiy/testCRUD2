@@ -1,4 +1,14 @@
-<p>
-  tweet works!
-</p>
-<app-comment></app-comment>
+<div class="card m-3">
+  <div class="card-body">
+    <h4 class="card-title">{{title}}</h4>
+    <p class="card-text">{{body}}</p>
+
+    <a data-toggle="collapse" href="#comments" aria-expanded="false" aria-controls="comments">
+      Show comments
+    </a>
+
+    <div id="comments" class="collapse show" role="tabpanel">
+      <app-comment></app-comment>
+    </div>
+  </div>
+</div>
