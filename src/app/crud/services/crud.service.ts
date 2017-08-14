@@ -42,6 +42,14 @@ export class CrudService {
       .catch(this.handleError);
   }
 
+  getComments() {
+    const url = `http://jsonplaceholder.typicode.com/comments`;
+
+    return this._http.get(url, { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
   private handleError(error: Response | any) {
     let errorMsg: string;
     if (error instanceof Response) {

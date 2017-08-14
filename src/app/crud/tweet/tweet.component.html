@@ -3,12 +3,17 @@
     <h4 class="card-title">{{title}}</h4>
     <p class="card-text">{{body}}</p>
 
-    <a data-toggle="collapse" href="#comments" aria-expanded="false" aria-controls="comments">
+    <a data-toggle="collapse"
+       href="#comments"
+       aria-expanded="false"
+       aria-controls="comments">
       Show comments
     </a>
 
-    <div id="comments" class="collapse show" role="tabpanel">
-      <app-comment></app-comment>
+    <div id="comments" class="collapse" role="tabpanel">
+      <app-comment *ngFor="let comment of comments"
+                   [comment]="comment">
+      </app-comment>
     </div>
   </div>
 </div>
