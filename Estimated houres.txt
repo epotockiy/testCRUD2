@@ -1,0 +1,3 @@
+﻿12h - learning and practising in react.js
+16h - implementing CRUD2 app
+8h - fixing bugs
