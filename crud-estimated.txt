@@ -1,0 +1,15 @@
+CRUD application estimaded hours:
+
+	- prepare workflow environment(create project, install neccessary libs, ...): 2h;
+	- investigate documentation of jsonplaceholder.typicode.com: 1h;
+	- components:
+		- crud-app(main): 3h;
+		- tweet: 6h;
+		- comment: 3h;
+		- add-form: 3h;
+	- services:
+		- tweet.service: 5h;
+	- provide basic design and styling: 4h;
+
+Total: 27h. 
+	
