@@ -1,25 +1,29 @@
-<form class="m-3" [formGroup]="addTweetForm" (ngSubmit)="onSubmit(addTweetForm.value)">
-  <div class="row justify-content-center">
-    <div class="form-group col-md-3">
-      <input type="text"
-             id="tweet-title"
-             class="form-control"
-             placeholder="Title"
-             [formControl]="addTweetForm.controls['tweetTitle']"
-      />
-    </div>
+<div class="container">
+  <h3 class="m-3 text-center">Post new tweets</h3>
 
-    <div class="form-group col-md-5">
-      <input type="text"
-             id="tweet-body"
-             class="form-control"
-             placeholder="Text"
-             [formControl]="addTweetForm.controls['tweetBody']"
-      />
-    </div>
+  <form class="m-2" [formGroup]="addTweetForm" (ngSubmit)="onSubmit(addTweetForm.value)">
+    <div class="row justify-content-center">
+      <div class="form-group col-md-3">
+        <input type="text"
+               id="tweet-title"
+               class="form-control"
+               placeholder="Title"
+               [formControl]="addTweetForm.controls['tweetTitle']"
+        />
+      </div>
 
-    <div class="col-md-1">
-      <button type="submit" class="btn btn-danger">Post</button>
+      <div class="form-group col-md-5">
+        <input type="text"
+               id="tweet-body"
+               class="form-control"
+               placeholder="Text"
+               [formControl]="addTweetForm.controls['tweetBody']"
+        />
+      </div>
+
+      <div class="col-md-1">
+        <button type="submit" class="btn btn-danger">Post</button>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>

@@ -20,6 +20,7 @@ export class CrudService {
   }
 
   addTweet (tweet: Tweet): Observable<any> {
+    console.log('adding tweet: ', tweet);
     const url = `http://jsonplaceholder.typicode.com/posts`;
 
     return this._http.post(url, JSON.stringify(tweet), { headers: contentHeaders })
@@ -28,6 +29,7 @@ export class CrudService {
   }
 
   updateTweet (tweet: Tweet): Observable<any> {
+    console.log('updating tweet: ', tweet);
     const url = `http://jsonplaceholder.typicode.com/posts/${tweet.id}`;
 
     return this._http.put(url, JSON.stringify(tweet), { headers: contentHeaders })
@@ -36,6 +38,7 @@ export class CrudService {
   }
 
   deleteTweet (id: number): Observable<any> {
+    console.log('deleting tweet #' + id);
     const url = `http://jsonplaceholder.typicode.com/posts/${id}`;
 
     return this._http.delete(url, { headers: contentHeaders })

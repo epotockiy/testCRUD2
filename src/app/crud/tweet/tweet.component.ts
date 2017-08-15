@@ -12,52 +12,49 @@ import { Tweet                    } from '../models/tweet';
 export class TweetComponent implements OnInit {
   @Input()  tweet:         Tweet;
   @Input()  comments:      Comment[];
+  @Output() updateTweet: EventEmitter<Tweet> = new EventEmitter<Tweet>();
+  @Output() deleteTweet: EventEmitter<number>  = new EventEmitter<number>();
   @Output() addNewComment: EventEmitter<Comment> = new EventEmitter<Comment>();
+  @Output() updateComment: EventEmitter<Comment> = new EventEmitter<Comment>();
   @Output() deleteComment: EventEmitter<number>  = new EventEmitter<number>();
 
-  constructor(private _crudService: CrudService) { }
+  isTitleEditing = false;
+  isBodyEditing  = false;
+  newTweetTitle: string;
+  newTweetBody:  string;
+
+  constructor() { }
 
   ngOnInit() {
+    this.newTweetTitle = this.tweet.title;
+    this.newTweetBody  = this.tweet.body;
   }
 
-  onAddComment(comment) {
-    this._crudService.addComment(comment)
-      .subscribe(
-        data => {
-          this.addNewComment.emit(comment);
-        },
-        error => {
-          console.log(error);
-        }
-      );
+  onEditTitleClick(event) {
+    event.preventDefault();
+
+    if (this.isTitleEditing) {
+      this.updateTweet.emit(this.tweet);
+    }
+
+    this.tweet.title = this.newTweetTitle;
+    this.isTitleEditing = !this.isTitleEditing;
   }
 
-  onUpdateComment(comment) {
-    this._crudService.updateComment(comment)
-      .subscribe(
-        data => {
-          for (let i = 0; i < this.comments.length; ++i) {
-            if (this.comments[i].id === comment.id) {
-              this.comments[i] = comment;
-              break;
-            }
-          }
-        },
-        error => {
-          console.log(error);
-        }
-      );
+  onEditBodyClick(event) {
+    event.preventDefault();
+
+    if (this.isBodyEditing) {
+      this.updateTweet.emit(this.tweet);
+    }
+
+    this.tweet.body = this.newTweetBody;
+    this.isBodyEditing = !this.isBodyEditing;
   }
 
-  onDeleteComment(id) {
-    this._crudService.deleteComment(id)
-      .subscribe(
-        data => {
-          this.deleteComment.emit(id);
-        },
-        error => {
-          console.log(error);
-        }
-      );
+  onDeleteClick(event) {
+    event.preventDefault();
+
+    this.deleteTweet.emit(this.tweet.id);
   }
 }

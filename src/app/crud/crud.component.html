@@ -6,7 +6,10 @@
       <app-tweet *ngFor="let tweet of tweetList"
                  [tweet]="tweet"
                  [comments]="getCommentsForTweet(tweet.id)"
+                 (updateTweet)="onUpdateTweet($event)"
+                 (deleteTweet)="onDeleteTweet($event)"
                  (addNewComment)="onAddNewComment($event)"
+                 (updateComment)="onUpdateComment($event)"
                  (deleteComment)="onDeleteComment($event)">
       </app-tweet>
     </div>

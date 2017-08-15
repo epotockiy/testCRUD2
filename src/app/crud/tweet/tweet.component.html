@@ -1,9 +1,45 @@
 <div class="card m-3">
-  <div class="card-body">
-    <h4 class="card-title">{{tweet.title}}</h4>
-    <p class="card-text">{{tweet.body}}</p>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-11">
+        <h4 *ngIf="!isTitleEditing" class="card-title">
+          #{{tweet.id}} {{tweet.title}}
+          <a class="small-text" href="#" (click)="onEditTitleClick($event)">Change title</a>
+        </h4>
+        <textarea class="form-control"
+                  *ngIf="isTitleEditing"
+                  [(ngModel)]="newTweetTitle"
+                  name="comment"
+                  rows="1">
+    </textarea>
+        <a *ngIf="isTitleEditing" class="small-text" href="#" (click)="onEditTitleClick($event)">Save</a>
+      </div>
 
-    <a data-toggle="collapse"
+      <div class="col-md-1">
+        <a class="delete-btn align-top" href="#" (click)="onDeleteClick($event)">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <p *ngIf="!isBodyEditing" class="card-text">
+      {{tweet.body}}
+      <a href="#" (click)="onEditBodyClick($event)" class="small-text ml-1">Edit tweet</a>
+    </p>
+    <textarea class="form-control"
+              *ngIf="isBodyEditing"
+              [(ngModel)]="newTweetBody"
+              name="comment"
+              rows="3">
+    </textarea>
+    <a *ngIf="isBodyEditing" href="#" (click)="onEditBodyClick($event)" class="small-text ml-1">Save</a>
+  </div>
+
+  <div class="card-footer bg-transparent">
+    <a class="ml-2"
+       data-toggle="collapse"
        [href]="'#comments' + tweet.id"
        aria-expanded="false"
        aria-controls="comments">
@@ -11,16 +47,17 @@
     </a>
 
     <div [id]="'comments' + tweet.id" class="collapse" role="tabpanel">
+      <h4 class="pl-3 pr-3 pt-4 pb-0">Comments:</h4>
       <div class="container">
         <app-add-comment-form [postId]="tweet.id"
-                              (addComment)="onAddComment($event)">
+                              (addComment)="addNewComment.emit($event)">
         </app-add-comment-form>
       </div>
 
       <app-comment *ngFor="let comment of comments"
                    [comment]="comment"
-                   (updateComment)="onUpdateComment($event)"
-                   (deleteComment)="onDeleteComment($event)">
+                   (updateComment)="updateComment.emit($event)"
+                   (deleteComment)="deleteComment.emit($event)">
       </app-comment>
     </div>
   </div>
