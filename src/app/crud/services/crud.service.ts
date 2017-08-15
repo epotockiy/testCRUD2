@@ -19,8 +19,24 @@ export class CrudService {
       .catch(this.handleError);
   }
 
+  getTweet (id: number): Observable<Tweet> {
+    const url = `http://jsonplaceholder.typicode.com/posts/${id}`;
+
+    return this._http.get(url, { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  getTweetComments(id: number): Observable<Comment[]> {
+    const url = `http://jsonplaceholder.typicode.com/posts/${id}/comments`;
+
+    return this._http.get(url, { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
   addTweet (tweet: Tweet): Observable<any> {
-    console.log('adding tweet: ', tweet);
+    console.log('adding tweets: ', tweet);
     const url = `http://jsonplaceholder.typicode.com/posts`;
 
     return this._http.post(url, JSON.stringify(tweet), { headers: contentHeaders })
@@ -29,7 +45,7 @@ export class CrudService {
   }
 
   updateTweet (tweet: Tweet): Observable<any> {
-    console.log('updating tweet: ', tweet);
+    console.log('updating tweets: ', tweet);
     const url = `http://jsonplaceholder.typicode.com/posts/1`;
 
     return this._http.put(url, JSON.stringify(tweet), { headers: contentHeaders })
@@ -38,7 +54,7 @@ export class CrudService {
   }
 
   deleteTweet (id: number): Observable<any> {
-    console.log('deleting tweet #' + id);
+    console.log('deleting tweets #' + id);
     const url = `http://jsonplaceholder.typicode.com/posts/1`;
 
     return this._http.delete(url, { headers: contentHeaders })

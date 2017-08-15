@@ -1,3 +1,4 @@
+<!--
 <div class="card m-3">
   <div class="card-header">
     <div class="row">
@@ -65,5 +66,13 @@
                    (deleteComment)="deleteComment.emit($event)">
       </app-comment>
     </div>
+  </div>
+</div>
+-->
+<div class="row" *ngIf="isDataLoaded">
+  <div class="col-md-8 mr-auto ml-auto">
+    <app-tweets *ngFor="let tweet of tweetList"
+               [tweet]="tweet">
+    </app-tweets>
   </div>
 </div>

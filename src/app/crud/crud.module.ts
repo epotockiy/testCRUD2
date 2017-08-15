@@ -4,15 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AddTweetFormComponent            } from './add-tweet-form/add-tweet-form.component';
 import { CrudService                      } from './services/crud.service';
-import { TweetModule                      } from './tweet/tweet.module';
+import { TweetsModule                     } from './tweets/tweets.module';
+import { PageNotFoundComponent            } from './page-not-found/page-not-found.component';
 import { CrudComponent                    } from './crud.component';
+import { CrudRoutingModule                } from './crud.routing-module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TweetModule
+    TweetsModule,
+    CrudRoutingModule
   ],
   exports: [
     AddTweetFormComponent,
@@ -23,7 +26,8 @@ import { CrudComponent                    } from './crud.component';
   ],
   declarations: [
     AddTweetFormComponent,
-    CrudComponent
+    CrudComponent,
+    PageNotFoundComponent
   ]
 })
 

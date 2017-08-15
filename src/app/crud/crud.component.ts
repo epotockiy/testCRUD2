@@ -18,20 +18,7 @@ export class CrudComponent implements OnInit {
   constructor(private _crudService: CrudService) { }
 
   ngOnInit() {
-    this.getTweets();
     this.getComments();
-  }
-
-  getTweets() {
-    this._crudService.getTweets()
-      .subscribe(
-        data => {
-          this.tweetList = data;
-        },
-        error => {
-          console.log(error);
-        }
-      );
   }
 
   getComments() {
