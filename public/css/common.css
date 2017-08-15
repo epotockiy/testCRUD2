@@ -1,0 +1,25 @@
+* {
+	margin: 0 auto;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Arial", sans-serif;
+}
+
+.post-box {
+	width: 500px;
+	margin-top: 50px;
+	padding: 15px;
+	border:  1px solid #ccc;
+}
+
+.post-box h1 {
+	margin-bottom: 15px;
+	font-size: 25px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.post {
+	margin-bottom: 15px;
+	background: #eee;
+}
