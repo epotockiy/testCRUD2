@@ -40,6 +40,7 @@ export class TweetComponent implements OnInit {
     if (this.newTweetTitle.length) {
       this.tweet.title = this.newTweetTitle;
     }
+    this.newTweetTitle = this.tweet.title;
     this.isTitleEditing = !this.isTitleEditing;
   }
 
@@ -53,6 +54,7 @@ export class TweetComponent implements OnInit {
     if (this.newTweetBody.length) {
       this.tweet.title = this.newTweetBody;
     }
+    this.newTweetBody = this.tweet.title;
     this.isBodyEditing = !this.isBodyEditing;
   }
 

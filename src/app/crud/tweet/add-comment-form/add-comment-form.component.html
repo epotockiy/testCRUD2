@@ -7,6 +7,10 @@
              placeholder="Title"
              [formControl]="addCommentForm.controls['commentTitle']"
       />
+      <div *ngIf="addCommentForm.controls['commentTitle'].errors && addCommentForm.controls['commentTitle'].touched"
+           class="alert alert-danger">
+        Enter comment title.
+      </div>
     </div>
 
     <div class="form-group col-lg-5 col-md-12 col-sm-12">
@@ -16,10 +20,18 @@
              placeholder="Text"
              [formControl]="addCommentForm.controls['commentBody']"
       />
+      <div *ngIf="addCommentForm.controls['commentBody'].errors && addCommentForm.controls['commentBody'].touched"
+           class="alert alert-danger">
+        Enter comment text.
+      </div>
     </div>
 
     <div class=" col-lg-2 col-md-12 col-sm-12">
-      <button type="submit" class="btn btn-success">Add comment</button>
+      <button type="submit"
+              class="btn btn-success"
+              [disabled]="addCommentForm.invalid">
+        Add comment
+      </button>
     </div>
   </div>
 </form>
