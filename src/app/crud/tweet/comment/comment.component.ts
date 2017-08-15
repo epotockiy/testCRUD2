@@ -29,8 +29,9 @@ export class CommentComponent implements OnInit {
 
     if (this.newComment.length) {
       this.comment.body = this.newComment;
+    } else {
+      this.newComment = this.comment.body;
     }
-    this.newComment = this.comment.body;
     this.isEditing = !this.isEditing;
   }
 
