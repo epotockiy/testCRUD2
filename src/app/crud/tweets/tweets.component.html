@@ -53,18 +53,7 @@
     </a>
 
     <div [id]="'comments' + tweet.id" class="collapse" role="tabpanel">
-      <h4 class="pl-3 pr-3 pt-4 pb-0">Comments:</h4>
-      <div class="container">
-        <app-add-comment-form [postId]="tweet.id"
-                              (addComment)="addNewComment.emit($event)">
-        </app-add-comment-form>
-      </div>
 
-      <app-comment *ngFor="let comment of comments"
-                   [comment]="comment"
-                   (updateComment)="updateComment.emit($event)"
-                   (deleteComment)="deleteComment.emit($event)">
-      </app-comment>
     </div>
   </div>
 </div>

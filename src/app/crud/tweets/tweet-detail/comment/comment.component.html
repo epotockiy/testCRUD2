@@ -1,0 +1,23 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-sm-10">
+    <div class="card m-2">
+      <div class="card-header">
+        #{{comment.id}} {{comment.name}}
+      </div>
+      <div class="card-body">
+        <p *ngIf="!isEditing">{{comment.body}}</p>
+        <div class="form-group">
+      <textarea class="form-control"
+                *ngIf="isEditing"
+                [(ngModel)]="newComment"
+                name="comment"
+                rows="3">
+      </textarea>
+        </div>
+
+        <a href="#" (click)="onEditClick($event)" class="btn btn-primary">{{isEditing ? 'Save' : 'Edit'}}</a>
+        <a href="#" (click)="onDeleteClick($event)" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>

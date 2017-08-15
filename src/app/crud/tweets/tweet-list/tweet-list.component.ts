@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CrudService } from '../../services/crud.service';
-import { Tweet } from '../../models/tweet';
-import { Router } from '@angular/router';
+import { Router            } from '@angular/router';
+
+import { CrudService       } from '../../services/crud.service';
+import { Tweet             } from '../../models/tweet';
 
 @Component({
   selector: 'app-tweet-list',
@@ -32,12 +33,27 @@ export class TweetListComponent implements OnInit {
       );
   }
 
-  onEditClick(event, id: number) {
+  onDetailsClick(event, id: number) {
     event.preventDefault();
-    this._router.navigate(['/tweet-detail', id + 1]);
+    this._router.navigate(['/tweet-detail', id]);
   }
 
   onDeleteClick(event, id: number) {
     event.preventDefault();
+
+    this._crudService.deleteTweet(id)
+      .subscribe(
+        data => {
+          for (let i = 0; i < this.tweetList.length; ++i) {
+            if (this.tweetList[i].id === id) {
+              this.tweetList.splice(i, 1);
+              break;
+            }
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 }
