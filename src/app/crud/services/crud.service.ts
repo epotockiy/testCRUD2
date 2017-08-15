@@ -5,12 +5,13 @@ import { Observable     } from 'rxjs/Rx';
 import { Tweet          } from '../models/tweet';
 import { contentHeaders } from './headers';
 import 'rxjs/add/operator/map';
+import { Comment } from '../models/comment';
 
 @Injectable()
 export class CrudService {
   constructor(private _http: Http) { }
 
-  getTweets(): Observable<Tweet[]> {
+  getTweets (): Observable<Tweet[]> {
     const url = `http://jsonplaceholder.typicode.com/posts`;
 
     return this._http.get(url, { headers: contentHeaders })
@@ -18,7 +19,7 @@ export class CrudService {
       .catch(this.handleError);
   }
 
-  addTweet(tweet: Tweet): Observable<any> {
+  addTweet (tweet: Tweet): Observable<any> {
     const url = `http://jsonplaceholder.typicode.com/posts`;
 
     return this._http.post(url, JSON.stringify(tweet), { headers: contentHeaders })
@@ -26,15 +27,15 @@ export class CrudService {
       .catch(this.handleError);
   }
 
-  updateTweet(id: number, tweet: Tweet): Observable<any> {
-    const url = `http://jsonplaceholder.typicode.com/posts/${id}`;
+  updateTweet (tweet: Tweet): Observable<any> {
+    const url = `http://jsonplaceholder.typicode.com/posts/${tweet.id}`;
 
     return this._http.put(url, JSON.stringify(tweet), { headers: contentHeaders })
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
 
-  deleteTweet(id: number): Observable<any> {
+  deleteTweet (id: number): Observable<any> {
     const url = `http://jsonplaceholder.typicode.com/posts/${id}`;
 
     return this._http.delete(url, { headers: contentHeaders })
@@ -42,7 +43,7 @@ export class CrudService {
       .catch(this.handleError);
   }
 
-  getComments() {
+  getComments () {
     const url = `http://jsonplaceholder.typicode.com/comments`;
 
     return this._http.get(url, { headers: contentHeaders })
@@ -50,7 +51,34 @@ export class CrudService {
       .catch(this.handleError);
   }
 
-  private handleError(error: Response | any) {
+  addComment (comment: Comment): Observable<any> {
+    console.log('adding comment:', comment);
+    const url = `http://jsonplaceholder.typicode.com/posts`;
+
+    return this._http.post(url, JSON.stringify(comment), { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  updateComment (comment: Comment): Observable<any> {
+    console.log('updating comment:', comment);
+    const url = `http://jsonplaceholder.typicode.com/posts/${comment.id}`;
+
+    return this._http.put(url, JSON.stringify(comment), { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  deleteComment (id: number): Observable<any> {
+    console.log('deleting comment #' + id);
+    const url = `http://jsonplaceholder.typicode.com/posts/${id}`;
+
+    return this._http.delete(url, { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  private handleError (error: Response | any) {
     let errorMsg: string;
     if (error instanceof Response) {
       try {

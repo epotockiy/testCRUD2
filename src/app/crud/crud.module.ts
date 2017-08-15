@@ -1,28 +1,28 @@
 import { NgModule                         } from '@angular/core';
+import { CommonModule                     } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AddFormComponent                 } from './add-form/add-form.component';
+import { AddTweetFormComponent            } from './add-tweet-form/add-tweet-form.component';
 import { CrudService                      } from './services/crud.service';
 import { TweetModule                      } from './tweet/tweet.module';
 import { CrudComponent                    } from './crud.component';
-import { CommonModule                     } from '@angular/common';
 
 @NgModule({
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,
     TweetModule
   ],
   exports: [
-    AddFormComponent,
+    AddTweetFormComponent,
     CrudComponent
   ],
   providers: [
     CrudService
   ],
   declarations: [
-    AddFormComponent,
+    AddTweetFormComponent,
     CrudComponent
   ]
 })

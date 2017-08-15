@@ -1,18 +1,26 @@
 <div class="card m-3">
   <div class="card-body">
-    <h4 class="card-title">{{title}}</h4>
-    <p class="card-text">{{body}}</p>
+    <h4 class="card-title">{{tweet.title}}</h4>
+    <p class="card-text">{{tweet.body}}</p>
 
     <a data-toggle="collapse"
-       href="#comments"
+       [href]="'#comments' + tweet.id"
        aria-expanded="false"
        aria-controls="comments">
       Show comments
     </a>
 
-    <div id="comments" class="collapse" role="tabpanel">
+    <div [id]="'comments' + tweet.id" class="collapse" role="tabpanel">
+      <div class="container">
+        <app-add-comment-form [postId]="tweet.id"
+                              (addComment)="onAddComment($event)">
+        </app-add-comment-form>
+      </div>
+
       <app-comment *ngFor="let comment of comments"
-                   [comment]="comment">
+                   [comment]="comment"
+                   (updateComment)="onUpdateComment($event)"
+                   (deleteComment)="onDeleteComment($event)">
       </app-comment>
     </div>
   </div>

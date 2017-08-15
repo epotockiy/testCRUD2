@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Comment                  } from '../../models/comment';
 
 @Component({
@@ -7,11 +7,33 @@ import { Comment                  } from '../../models/comment';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-  @Input() comment: Comment;
+  @Input()  comment:       Comment;
+  @Output() updateComment: EventEmitter<Comment> = new EventEmitter<Comment>();
+  @Output() deleteComment: EventEmitter<number>  = new EventEmitter<number>();
+
+  isEditing = false;
+  newComment: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.newComment = this.comment.body;
   }
 
+  onEditClick(event) {
+    event.preventDefault();
+
+    if (this.isEditing) {
+      this.updateComment.emit(this.comment);
+    }
+
+    this.isEditing = !this.isEditing;
+    this.comment.body = this.newComment;
+  }
+
+  onDeleteClick(event) {
+    event.preventDefault();
+
+    this.deleteComment.emit(this.comment.id);
+  }
 }
