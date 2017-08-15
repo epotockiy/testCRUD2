@@ -4,6 +4,7 @@ import { ActivatedRoute, Router                  } from '@angular/router';
 import { CrudService                             } from '../../services/crud.service';
 import { Tweet                                   } from '../../models/tweet';
 import { Comment                                 } from '../../models/comment';
+import { User                                    } from '../../models/user';
 
 @Component({
   selector: 'app-tweet-detail',
@@ -15,6 +16,7 @@ export class TweetDetailComponent implements OnInit {
 
   tweet: Tweet;
   comments: Comment[];
+  user: User;
 
   isDataLoaded   = false;
   isTitleEditing = false;
@@ -41,6 +43,7 @@ export class TweetDetailComponent implements OnInit {
           this.tweet = data;
 
           this.getComments();
+          this.getUser();
 
           this.tweetTitle = this.tweet.title;
           this.tweetBody  = this.tweet.body;
@@ -116,6 +119,18 @@ export class TweetDetailComponent implements OnInit {
               break;
             }
           }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  getUser() {
+    this._crudService.getUser(this.tweet.userId)
+      .subscribe(
+        data => {
+          this.user = data;
         },
         error => {
           console.log(error);

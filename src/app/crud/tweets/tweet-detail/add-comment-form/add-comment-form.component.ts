@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators     } from '@angular/forms';
 
-import { Comment                                } from '../../models/comment';
+import { Comment                                } from '../../../models/comment';
 
 @Component({
   selector: 'app-add-comment-form',

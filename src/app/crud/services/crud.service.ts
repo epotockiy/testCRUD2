@@ -11,6 +11,14 @@ import 'rxjs/add/operator/map';
 export class CrudService {
   constructor(private _http: Http) { }
 
+  getUser (id: number): Observable<any> {
+    const url = `http://jsonplaceholder.typicode.com/users/${id}`;
+
+    return this._http.get(url, { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
   getTweets (): Observable<Tweet[]> {
     const url = `http://jsonplaceholder.typicode.com/posts`;
 

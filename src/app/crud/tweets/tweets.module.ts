@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CommentComponent                 } from './tweet-detail/comment/comment.component';
 import { TweetsComponent                  } from './tweets.component';
-import { AddCommentFormComponent          } from './add-comment-form/add-comment-form.component';
+import { AddCommentFormComponent          } from './tweet-detail/add-comment-form/add-comment-form.component';
 import { TweetsRoutingModule              } from './tweets.routing-module';
 import { TweetListComponent               } from './tweet-list/tweet-list.component';
 import { TweetDetailComponent             } from './tweet-detail/tweet-detail.component';
