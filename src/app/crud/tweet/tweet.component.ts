@@ -37,7 +37,9 @@ export class TweetComponent implements OnInit {
       this.updateTweet.emit(this.tweet);
     }
 
-    this.tweet.title = this.newTweetTitle;
+    if (this.newTweetTitle.length) {
+      this.tweet.title = this.newTweetTitle;
+    }
     this.isTitleEditing = !this.isTitleEditing;
   }
 
@@ -48,7 +50,9 @@ export class TweetComponent implements OnInit {
       this.updateTweet.emit(this.tweet);
     }
 
-    this.tweet.body = this.newTweetBody;
+    if (this.newTweetBody.length) {
+      this.tweet.title = this.newTweetBody;
+    }
     this.isBodyEditing = !this.isBodyEditing;
   }
 

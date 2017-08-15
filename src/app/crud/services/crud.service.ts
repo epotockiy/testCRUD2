@@ -3,9 +3,9 @@ import { Http, Response } from '@angular/http';
 
 import { Observable     } from 'rxjs/Rx';
 import { Tweet          } from '../models/tweet';
+import { Comment        } from '../models/comment';
 import { contentHeaders } from './headers';
 import 'rxjs/add/operator/map';
-import { Comment } from '../models/comment';
 
 @Injectable()
 export class CrudService {
@@ -30,7 +30,7 @@ export class CrudService {
 
   updateTweet (tweet: Tweet): Observable<any> {
     console.log('updating tweet: ', tweet);
-    const url = `http://jsonplaceholder.typicode.com/posts/${tweet.id}`;
+    const url = `http://jsonplaceholder.typicode.com/posts/1`;
 
     return this._http.put(url, JSON.stringify(tweet), { headers: contentHeaders })
       .map((response: Response) => response.json())
@@ -39,7 +39,7 @@ export class CrudService {
 
   deleteTweet (id: number): Observable<any> {
     console.log('deleting tweet #' + id);
-    const url = `http://jsonplaceholder.typicode.com/posts/${id}`;
+    const url = `http://jsonplaceholder.typicode.com/posts/1`;
 
     return this._http.delete(url, { headers: contentHeaders })
       .map((response: Response) => response.json())
@@ -65,7 +65,7 @@ export class CrudService {
 
   updateComment (comment: Comment): Observable<any> {
     console.log('updating comment:', comment);
-    const url = `http://jsonplaceholder.typicode.com/posts/${comment.id}`;
+    const url = `http://jsonplaceholder.typicode.com/posts/1`;
 
     return this._http.put(url, JSON.stringify(comment), { headers: contentHeaders })
       .map((response: Response) => response.json())
@@ -74,7 +74,7 @@ export class CrudService {
 
   deleteComment (id: number): Observable<any> {
     console.log('deleting comment #' + id);
-    const url = `http://jsonplaceholder.typicode.com/posts/${id}`;
+    const url = `http://jsonplaceholder.typicode.com/posts/1`;
 
     return this._http.delete(url, { headers: contentHeaders })
       .map((response: Response) => response.json())

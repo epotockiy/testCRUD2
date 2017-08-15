@@ -27,8 +27,10 @@ export class CommentComponent implements OnInit {
       this.updateComment.emit(this.comment);
     }
 
+    if (this.newComment.length) {
+      this.comment.body = this.newComment;
+    }
     this.isEditing = !this.isEditing;
-    this.comment.body = this.newComment;
   }
 
   onDeleteClick(event) {
