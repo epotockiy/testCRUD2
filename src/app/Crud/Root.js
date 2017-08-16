@@ -1,9 +1,10 @@
-import React               from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { Header          } from './Header';
-import { TweetList       } from './TweetList';
-import { TweetDetail     } from './TweetDetail';
-import { AddTweetForm    } from './AddTweetForm';
+import React                   from 'react';
+import { Route, Redirect     } from 'react-router-dom';
+import { Header              } from './components/Header';
+import { AddTweetForm        } from './components/AddTweetForm';
+import { User                } from './components/User';
+import TweetList               from './components/TweetList';
+import TweetDetail             from './components/TweetDetail';
 
 export class Root extends React.Component {
   render() {
@@ -16,6 +17,7 @@ export class Root extends React.Component {
           <Route path={'/tweets'} component={TweetList} />
           <Route path={'/tweet-detail/:id'} component={TweetDetail} />
           <Route path={'/create'} component={AddTweetForm} />
+          <Route path={'/user/:id'} component={User} />
         </div>
       </div>
     );
