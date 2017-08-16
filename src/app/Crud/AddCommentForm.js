@@ -7,6 +7,7 @@ export class AddCommentForm extends React.Component {
 
     this.handleInputTitleChange = this.handleInputTitleChange.bind(this);
     this.handleInputBodyChange  = this.handleInputBodyChange.bind(this);
+    this.onAddClick             = this.onAddClick.bind(this);
 
     this.state = {
       inputTitle: '',
@@ -23,6 +24,16 @@ export class AddCommentForm extends React.Component {
   handleInputBodyChange(event) {
     this.setState({
       inputBody: event.target.value
+    });
+  }
+
+  onAddClick(event) {
+    event.preventDefault();
+    this.props.addComment(this.state.inputTitle, this.state.inputBody);
+
+    this.setState({
+      inputTitle: '',
+      inputBody: ''
     });
   }
 
@@ -53,7 +64,7 @@ export class AddCommentForm extends React.Component {
           <div className=" col-lg-2 col-md-12 col-sm-12">
             <button type="submit"
                     className="btn btn-success"
-                    onClick={(e) => { e.preventDefault(); this.props.addComment(this.state.inputTitle, this.state.inputBody); }}
+                    onClick={this.onAddClick}
                     disabled={!this.state.inputBody.length || !this.state.inputTitle.length}>
               Add comment
             </button>

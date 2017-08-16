@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tweet } from './Tweet';
+import queryString from 'query-string';
 
 export class TweetList extends React.Component {
   constructor(props) {
@@ -21,9 +22,23 @@ export class TweetList extends React.Component {
             tweets => {
               this.setState({
                 tweets: tweets
-              })
+              });
+
+              this.checkForNewTweet();
             }
         );
+  }
+
+  checkForNewTweet() {
+    const newTweet = queryString.parse(this.props.location.search).tweet ?
+        JSON.parse(queryString.parse(this.props.location.search).tweet) :
+        '';
+
+    if (newTweet) {
+      this.setState({
+        tweets: [newTweet, ...this.state.tweets]
+      });
+    }
   }
 
   onDeleteClick(id) {

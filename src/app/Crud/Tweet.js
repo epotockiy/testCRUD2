@@ -19,7 +19,7 @@ export const Tweet = (props) => {
         </div>
 
         <div className="card-footer bg-transparent">
-          <Link className="btn btn-primary" to={'/tweet-detail/' + props.tweet.id}>Details</Link>
+          <Link className="btn btn-primary" to={'/tweet-detail/' + props.tweet.id + '?tweet=' + JSON.stringify(props.tweet)}>Details</Link>
           <a href="#"
              className="btn btn-danger ml-2"
              onClick={(e) => { e.preventDefault(); props.onDeleteClick(); }}>

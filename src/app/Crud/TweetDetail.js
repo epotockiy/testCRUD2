@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Comment } from './Comment';
 import { AddCommentForm } from './AddCommentForm';
+import queryString from 'query-string';
 
 export class TweetDetail extends React.Component {
   isTitleEditing    = false;
@@ -32,15 +33,26 @@ export class TweetDetail extends React.Component {
   }
 
   getTweet() {
-    fetch('http://jsonplaceholder.typicode.com/posts/' + this.props.match.params.id)
-      .then(res => res.json())
-      .then(tweet => {
-        this.setState({
-          tweet: tweet
-        });
+    if ((+this.props.match.params.id).toString() !== this.props.match.params.id) {
 
+      this.setState({
+        tweet: JSON.parse(queryString.parse(this.props.location.search).tweet)
+      }, () => {
         this.getUser();
+        this.getTweetComments();
       });
+    } else {
+      fetch('http://jsonplaceholder.typicode.com/posts/' + this.props.match.params.id)
+        .then(res => res.json())
+        .then(tweet => {
+          this.setState({
+            tweet: tweet
+          }, () => {
+            this.getUser();
+            this.getTweetComments();
+          });
+        });
+    }
   }
 
   getTweetComments() {
