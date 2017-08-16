@@ -1,5 +1,5 @@
-import React from 'react';
-import { Tweet } from './Tweet';
+import React       from 'react';
+import { Tweet   } from './Tweet';
 import queryString from 'query-string';
 
 export class TweetList extends React.Component {
@@ -8,7 +8,7 @@ export class TweetList extends React.Component {
 
     this.state = {
       tweets: []
-    }
+    };
   }
 
   componentDidMount() {
@@ -17,22 +17,22 @@ export class TweetList extends React.Component {
 
   getTweets() {
     fetch('http://jsonplaceholder.typicode.com/posts')
-        .then(res => res.json())
-        .then(
-            tweets => {
-              this.setState({
-                tweets: tweets
-              });
+      .then(res => res.json())
+      .then(
+          tweets => {
+            this.setState({
+              tweets: tweets
+            });
 
-              this.checkForNewTweet();
-            }
-        );
+            this.checkForNewTweet();
+          }
+      );
   }
 
   checkForNewTweet() {
     const newTweet = queryString.parse(this.props.location.search).tweet ?
-        JSON.parse(queryString.parse(this.props.location.search).tweet) :
-        '';
+      JSON.parse(queryString.parse(this.props.location.search).tweet) :
+      '';
 
     if (newTweet) {
       this.setState({
@@ -66,9 +66,9 @@ export class TweetList extends React.Component {
         {this.state.tweets.map(tweet => {
           return (
             <Tweet
-                key={tweet.id + Math.random().toString(32).substr(2, 5)}
-                tweet={tweet}
-                onDeleteClick={this.onDeleteClick.bind(this, tweet.id)}
+              key={tweet.id + Math.random().toString(32).substr(2, 5)}
+              tweet={tweet}
+              onDeleteClick={this.onDeleteClick.bind(this, tweet.id)}
             />
           );
         })}

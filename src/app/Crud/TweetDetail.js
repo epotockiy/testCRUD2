@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Comment } from './Comment';
+import React              from 'react';
+import { Link           } from 'react-router-dom';
+import { Comment        } from './Comment';
 import { AddCommentForm } from './AddCommentForm';
-import queryString from 'query-string';
+import queryString        from 'query-string';
 
 export class TweetDetail extends React.Component {
-  isTitleEditing    = false;
-  isBodyEditing     = false;
+  isTitleEditing = false;
+  isBodyEditing  = false;
 
   constructor(props) {
     super(props);
@@ -33,8 +33,8 @@ export class TweetDetail extends React.Component {
   }
 
   getTweet() {
+    /* Checks if id is a number, then we can fetch tweet info from server. If not means that we created a new tweet. */
     if ((+this.props.match.params.id).toString() !== this.props.match.params.id) {
-
       this.setState({
         tweet: JSON.parse(queryString.parse(this.props.location.search).tweet)
       }, () => {
@@ -88,6 +88,7 @@ export class TweetDetail extends React.Component {
       this.updateTweet();
     }
 
+    /* Checks and updated form input(if we passes empty string it saves previous input). */
     if (this.state.tweetTitleInput.length) {
       let tempTweet = this.state.tweet;
       tempTweet.title = this.state.tweetTitleInput;
@@ -110,6 +111,7 @@ export class TweetDetail extends React.Component {
       this.updateTweet();
     }
 
+    /* Checks and updated form input(if we passes empty string it saves previous input). */
     if (this.state.tweetBodyInput.length) {
       let tempTweet = this.state.tweet;
       tempTweet.body = this.state.tweetBodyInput;
@@ -160,19 +162,19 @@ export class TweetDetail extends React.Component {
     console.log('deleting comment #' + id);
 
     fetch('http://jsonplaceholder.typicode.com/posts/1', {method: 'DELETE', cache: 'reload'})
-        .then(res => res.json())
-        .then(res => {
-          for (let i = 0; i < this.state.comments.length; ++i) {
-            if (this.state.comments[i].id === id) {
-              let tempTweets = this.state.comments;
-              tempTweets.splice(i, 1);
-              this.setState({
-                comments: tempTweets
-              });
-              break;
-            }
+      .then(res => res.json())
+      .then(res => {
+        for (let i = 0; i < this.state.comments.length; ++i) {
+          if (this.state.comments[i].id === id) {
+            let tempTweets = this.state.comments;
+            tempTweets.splice(i, 1);
+            this.setState({
+              comments: tempTweets
+            });
+            break;
           }
-        });
+        }
+      });
   }
 
   render() {
@@ -240,9 +242,9 @@ export class TweetDetail extends React.Component {
         {this.state.comments.map(comment => {
           return (
               <Comment
-                  key={comment.id + Math.random().toString(32).substr(2, 5)}
-                  comment={comment}
-                  onDeleteComment={() => this.deleteComment(comment.id)}
+                key={comment.id + Math.random().toString(32).substr(2, 5)}
+                comment={comment}
+                onDeleteComment={() => this.deleteComment(comment.id)}
               />
           );
         })}

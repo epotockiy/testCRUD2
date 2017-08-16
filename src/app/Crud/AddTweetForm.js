@@ -1,4 +1,4 @@
-import React from 'react';
+import React    from 'react';
 import { Link } from 'react-router-dom';
 
 export class AddTweetForm extends React.Component {
@@ -23,8 +23,6 @@ export class AddTweetForm extends React.Component {
       title: this.state.inputTitle,
       body: this.state.inputBody
     };
-
-
   }
 
   handleInputTitleChange(event) {

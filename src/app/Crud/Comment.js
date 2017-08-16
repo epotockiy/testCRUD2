@@ -1,4 +1,4 @@
-import React from 'react';
+import React     from 'react';
 import PropTypes from 'prop-types';
 
 export class Comment extends React.Component {
@@ -23,7 +23,7 @@ export class Comment extends React.Component {
   onCommentEdit(event) {
     event.preventDefault();
 
-    if (this.isEditing) {
+    if (this.state.isEditing) {
       this.updateComment();
     }
 
