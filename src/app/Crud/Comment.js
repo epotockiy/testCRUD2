@@ -52,7 +52,8 @@ export class Comment extends React.Component {
         <div className="col-md-8 col-sm-10">
           <div className="card m-2">
             <div className="card-header">
-              #{this.props.comment.id} {this.props.comment.name}
+              <h5>#{this.props.comment.id} {this.props.comment.name}</h5>
+              <p>By: <strong>{this.props.comment.email}</strong></p>
             </div>
             <div className="card-body">
               {this.state.isEditing ? (
