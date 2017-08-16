@@ -1,106 +1,106 @@
 var PostBox = React.createClass({
-	getInitialState: function() {
-	  return {data: []};
-	},
+  getInitialState: function() {
+    return {data: []};
+  },
 
   handleCommentSubmit: function(comment) {
-  	'use strict';
+    'use strict';
 
-  	var comments = this.state.data;
+    var comments = this.state.data;
     comment.id = Date.now();
     var newComments = comments.concat([comment]);
     this.setState({data: newComments});
 
-		fetch("/posts", 
-		{
-			method: "POST",
-		  body: JSON.stringify(comment),
-		  headers: {
-		    "Content-Type": "application/json"
-		  }
-		})
-		  .then(function(response) {
-		  	return response.json();
-		   })
-		  .then(function(data) {
-		  	console.log(data);
-		    this.setState({data: data});
-		  }.bind(this))    
+    fetch("/posts",
+    {
+      method: "POST",
+      body: JSON.stringify(comment),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(function(response) {
+        return response.json();
+       })
+      .then(function(data) {
+        console.log(data);
+        this.setState({data: data});
+      }.bind(this))
   },
 
   componentDidMount: function() {
    'use strict';
 
-		fetch("/posts")
-		  .then(function(response) {
-		  	return response.json();
-		   })
-		  .then(function(data) {
-		    this.setState({data: data});
-		  }.bind(this))
-		  .catch( alert );
+    fetch("/posts")
+      .then(function(response) {
+        return response.json();
+       })
+      .then(function(data) {
+        this.setState({data: data});
+      }.bind(this))
+      .catch( alert );
   },
 
 
-	render: function() {
-		return (
-			<div className="post-box">
-				<h1>Posts</h1>
-				<PostList data={this.state.data}/>
-				<PostForm onCommentSubmit={this.handleCommentSubmit}/>
-			</div>
-			);
-	}
+  render: function() {
+    return (
+      <div className="post-box">
+        <h1>Posts</h1>
+        <PostList data={this.state.data}/>
+        <PostForm onCommentSubmit={this.handleCommentSubmit}/>
+      </div>
+      );
+  }
 });
 
 var PostList = React.createClass({
-	render: function() {
-		var data = this.props.data;
-		var PostListTemplate = data.map(function(item) { 
+  render: function() {
+    var data = this.props.data;
+    var PostListTemplate = data.map(function(item) {
       return (
         <Post text={item.text} id={item.id} key={item.id} />
       );
     });
-		return (
-			<div className="post-list">
-				{PostListTemplate}
-			</div>
-			);
-	}
+    return (
+      <div className="post-list">
+        {PostListTemplate}
+      </div>
+      );
+  }
 });
 
 var Post = React.createClass({
-	getInitialState: function() {
-	  return {data: []};
-	},
-
-	componentDidMount: function() {
-   'use strict';
-
-		fetch("/posts/" + this.props.id + "/comments")
-		  .then(function(response) {
-		  	return response.json();
-		   })
-		  .then(function(data) {
-		    this.setState({data: data});
-		  }.bind(this))
-		  .catch( alert );
+  getInitialState: function() {
+    return {data: []};
   },
 
-	render: function() {
-		return (
-			<div className="post">
-				<p className="post-text">
-					{this.props.text}
-				</p>
-				<CommentList data={this.state.data}/>
-			</div>
-		);
-	}
+  componentDidMount: function() {
+   'use strict';
+
+    fetch("/posts/" + this.props.id + "/comments")
+      .then(function(response) {
+        return response.json();
+       })
+      .then(function(data) {
+        this.setState({data: data});
+      }.bind(this))
+      .catch( alert );
+  },
+
+  render: function() {
+    return (
+      <div className="post">
+        <p className="post-text">
+          {this.props.text}
+        </p>
+        <CommentList data={this.state.data}/>
+      </div>
+    );
+  }
 });
 
 var PostForm = React.createClass({
-	getInitialState: function() {
+  getInitialState: function() {
     return {text: ''};
   },
 
@@ -118,54 +118,54 @@ var PostForm = React.createClass({
     this.setState({text: ''});
   },
 
-	render: function() {
-		return (
-			<form className="post-form" onSubmit={this.handleSubmit}>
+  render: function() {
+    return (
+      <form className="post-form" onSubmit={this.handleSubmit}>
         <input
           type="text"
           placeholder="Say something..."
           value={this.state.text}
           onChange={this.handleTextChange}
         />
-        <input type="submit" value="Post" />      
+        <input type="submit" value="Post" />
       </form>
-			);
-	}
+      );
+  }
 });
 
 var CommentList = React.createClass({
-	render: function() {
-		var data = this.props.data;
-		var CommentListTemplate = data.map(function(item) { 
+  render: function() {
+    var data = this.props.data;
+    var CommentListTemplate = data.map(function(item) {
       return (
         <Comment name={item.name} body={item.body} key={item.id} />
       );
     });
-		return (
-			<div className="comment-list">
-				<h2>Comments</h2>
-				{CommentListTemplate}
-			</div>
-			);
-	}
+    return (
+      <div className="comment-list">
+        <h2>Comments</h2>
+        {CommentListTemplate}
+      </div>
+      );
+  }
 });
 
 var Comment = React.createClass({
-	render: function() {
-		return (
-			<div className="comment">
-				<p className="comment-name">
-					{this.props.name}
-				</p>
-				<p className="comment-body">
-					{this.props.body}
-				</p>
-			</div>
-		);
-	}
+  render: function() {
+    return (
+      <div className="comment">
+        <p className="comment-name">
+          {this.props.name}
+        </p>
+        <p className="comment-body">
+          {this.props.body}
+        </p>
+      </div>
+    );
+  }
 });
 
 ReactDOM.render(
-	<PostBox />,
-	document.getElementById('content')
-	);
+  <PostBox />,
+  document.getElementById('content')
+  );
