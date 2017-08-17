@@ -28,6 +28,7 @@ export class UserList extends React.Component {
     return (
       <div className="row m-3">
         <div className="col-5 ml-auto mr-auto">
+          <h3 className="text-center mb-2">All users:</h3>
           <div className="list-group">
             {this.state.users.map(user => {
               return (
