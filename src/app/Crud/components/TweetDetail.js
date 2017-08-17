@@ -3,6 +3,7 @@ import { Link                } from 'react-router-dom';
 import { connect             } from 'react-redux';
 import { Comment             } from './Comment';
 import { AddCommentForm      } from './AddCommentForm';
+import { Loader              } from './Loader';
 import PropTypes               from 'prop-types';
 import * as crudReducerActions from './../actions/CrudReducerActions';
 
@@ -15,7 +16,8 @@ class TweetDetail extends React.Component {
     this.state = {
       currentTweet: {},
       user: {},
-      commentInput: ''
+      commentInput: '',
+      isDataLoaded: false
     };
   }
 
@@ -33,10 +35,17 @@ class TweetDetail extends React.Component {
   getTweetComments() {
     if (!this.props.comments.length) {
       fetch('http://jsonplaceholder.typicode.com/posts/' + this.state.currentTweet.id + '/comments')
-          .then(res => res.json())
-          .then(comments => {
-            this.props.setComments(comments);
+        .then(res => res.json())
+        .then(comments => {
+          this.props.setComments(comments);
+          this.setState({
+            isDataLoaded: true
           });
+        });
+    } else {
+      this.setState({
+        isDataLoaded: true
+      });
     }
   }
 
@@ -87,68 +96,74 @@ class TweetDetail extends React.Component {
 
   render() {
     return (
-      <div className="m-3">
-        <div className="row p-3">
-          <div className="col-md-1">
-            <Link className="btn btn-primary" to={'/tweets'}>Back</Link>
-          </div>
+        <div>
+          {this.state.isDataLoaded ? (
+            <div className="m-3">
+              <div className="row p-3">
+                <div className="col-md-1">
+                  <Link className="btn btn-primary" to={'/tweets'}>Back</Link>
+                </div>
 
-          <div className="col-md-5">
-            <Link className="nav-link" to={'/user/' + this.state.user.id}>
-              Posted by: {this.state.user.id} {this.state.user.name}
-            </Link>
-          </div>
-        </div>
-
-        <div className="card">
-          <div className="card-header">
-            <div className="row">
-              <div className="col-11">
-                {this.props.tweets.length > 0 ? (
-                    <h4 className="card-title">
-                      #{this.state.currentTweet.id} {this.state.currentTweet.title}
-                    </h4>
-                ) : (
-                  <h3>Loading...</h3>
-                )}
+                <div className="col-md-5">
+                  <Link className="nav-link" to={'/user/' + this.state.user.id}>
+                    Posted by: {this.state.user.id} {this.state.user.name}
+                  </Link>
+                </div>
               </div>
 
-              <div className="col-1">
-                <Link
-                    role="button"
-                    className="btn btn-info"
-                    to={'/edit'}>
-                  Edit
-                </Link>
+              <div className="card">
+                <div className="card-header">
+                  <div className="row">
+                    <div className="col-11">
+                      {this.props.tweets.length > 0 ? (
+                          <h4 className="card-title">
+                            #{this.state.currentTweet.id} {this.state.currentTweet.title}
+                          </h4>
+                      ) : (
+                          <h3>Loading...</h3>
+                      )}
+                    </div>
+
+                    <div className="col-1">
+                      <Link
+                          role="button"
+                          className="btn btn-info"
+                          to={'/edit'}>
+                        Edit
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card-body">
+                  {this.props.tweets.length > 0 ? (
+                      <p className="card-text">
+                        {this.state.currentTweet.body}
+                      </p>
+                  ) : (
+                      <h3>Loading...</h3>
+                  )}
+                </div>
               </div>
+
+              <h4 className="text-center p-3">Comments:</h4>
+
+              <AddCommentForm addComment={this.addComment} />
+
+              {this.props.comments.map(comment => {
+                return (
+                  <Comment
+                    key={comment.id + Math.random().toString(32).substr(2, 5)}
+                    comment={comment}
+                    onDeleteComment={() => this.deleteComment(comment.id)}
+                  />
+                );
+              })}
             </div>
-          </div>
-
-          <div className="card-body">
-            {this.props.tweets.length > 0 ? (
-              <p className="card-text">
-                {this.state.currentTweet.body}
-              </p>
-            ) : (
-              <h3>Loading...</h3>
-            )}
-          </div>
+          ) : (
+            <Loader/>
+          )}
         </div>
-
-        <h4 className="text-center p-3">Comments:</h4>
-
-        <AddCommentForm addComment={this.addComment} />
-
-        {this.props.comments.map(comment => {
-          return (
-            <Comment
-              key={comment.id + Math.random().toString(32).substr(2, 5)}
-              comment={comment}
-              onDeleteComment={() => this.deleteComment(comment.id)}
-            />
-          );
-        })}
-      </div>
     );
   }
 }

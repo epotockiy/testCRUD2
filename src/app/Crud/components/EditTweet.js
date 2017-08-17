@@ -134,6 +134,12 @@ class EditTweet extends React.Component {
               disabled={!this.state.inputTitle.length || !this.state.inputBody.length}>
               Save
             </button>
+
+            <button
+                className="btn btn-danger ml-3"
+                onClick={() => { this.props.history.push('/tweet-detail/' + this.props.currentTweet) }}>
+              Cancel
+            </button>
           </form>
         </div>
       </div>

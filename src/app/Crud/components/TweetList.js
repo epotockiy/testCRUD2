@@ -1,6 +1,7 @@
 import React       from 'react';
 import { connect } from 'react-redux';
 import { Tweet   } from './Tweet';
+import { Loader  } from './Loader';
 import * as crudReducerActions from './../actions/CrudReducerActions';
 import Pagination from 'react-js-pagination';
 
@@ -12,7 +13,8 @@ class TweetList extends React.Component {
 
     this.state = {
       activePage: 1,
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      isDataLoaded: false
     };
   }
 
@@ -27,8 +29,15 @@ class TweetList extends React.Component {
         .then(
           tweets => {
             this.props.setTweets(tweets);
+            this.setState({
+              isDataLoaded: true
+            });
           }
         );
+    } else {
+      this.setState({
+        isDataLoaded: true
+      });
     }
   }
 
@@ -58,35 +67,41 @@ class TweetList extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        {this.props.tweets.map((tweet, index) => {
-          if (index >= (this.state.activePage - 1) * this.state.itemsPerPage &&
-              index < this.state.activePage * this.state.itemsPerPage) {
-            return (
-              <Tweet
-                key={tweet.id + Math.random().toString(32).substr(2, 5)}
-                tweet={tweet}
-                onDeleteClick={this.onDeleteClick.bind(this, tweet.id)}
-                setCurrentTweet={() => { this.props.setCurrentTweet(tweet.id); }}
+      <div>
+        {this.state.isDataLoaded ? (
+          <div className="row">
+            {this.props.tweets.map((tweet, index) => {
+              if (index >= (this.state.activePage - 1) * this.state.itemsPerPage &&
+                  index < this.state.activePage * this.state.itemsPerPage) {
+                return (
+                  <Tweet
+                    key={tweet.id + Math.random().toString(32).substr(2, 5)}
+                    tweet={tweet}
+                    onDeleteClick={this.onDeleteClick.bind(this, tweet.id)}
+                    setCurrentTweet={() => { this.props.setCurrentTweet(tweet.id); }}
+                  />
+                );
+              }
+            })}
+            <div className="w-100">
+              <Pagination
+                innerClass="pagination pagination-lg justify-content-center mt-3"
+                itemClass="page-item"
+                linkClass="page-link"
+                activeClass="active"
+                prevPageText="Previous"
+                nextPageText="Next"
+                activePage={this.state.activePage}
+                itemsCountPerPage={10}
+                totalItemsCount={this.props.tweets.length}
+                pageRangeDisplayed={5}
+                onChange={this.handlePageChange}
               />
-            );
-          }
-        })}
-        <div className="w-100">
-          <Pagination
-            innerClass="pagination pagination-lg justify-content-center mt-3"
-            itemClass="page-item"
-            linkClass="page-link"
-            activeClass="active"
-            prevPageText="Previous"
-            nextPageText="Next"
-            activePage={this.state.activePage}
-            itemsCountPerPage={10}
-            totalItemsCount={this.props.tweets.length}
-            pageRangeDisplayed={5}
-            onChange={this.handlePageChange}
-          />
-        </div>
+            </div>
+          </div>
+        ) : (
+          <Loader/>
+        )}
       </div>
     );
   }

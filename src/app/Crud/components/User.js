@@ -1,6 +1,7 @@
 import React                   from 'react';
 import { connect             } from 'react-redux';
 import { Tweet               } from './Tweet';
+import { Loader              } from './Loader';
 import * as crudReducerActions from './../actions/CrudReducerActions';
 
 class User extends React.Component {
@@ -79,7 +80,7 @@ class User extends React.Component {
             </div>
           </div>
         ) : (
-          <h3>Loading...</h3>
+          <Loader/>
         )}
       </div>
     );
