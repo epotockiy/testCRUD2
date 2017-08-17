@@ -1,9 +1,9 @@
-import React       from 'react';
-import { connect } from 'react-redux';
-import { Tweet   } from './Tweet';
-import { Loader  } from './Loader';
+import React                   from 'react';
+import { connect             } from 'react-redux';
+import { Tweet               } from './Tweet';
+import { Loader              } from './Loader';
+import ReactPaginate           from 'react-paginate';
 import * as crudReducerActions from './../actions/CrudReducerActions';
-import Pagination from 'react-js-pagination';
 
 class TweetList extends React.Component {
   constructor(props) {
@@ -59,9 +59,9 @@ class TweetList extends React.Component {
       });
   }
 
-  handlePageChange(pageNumber) {
+  handlePageChange(data) {
     this.setState({
-      activePage: pageNumber
+      activePage: data.selected + 1
     });
   }
 
@@ -84,18 +84,23 @@ class TweetList extends React.Component {
               }
             })}
             <div className="w-100">
-              <Pagination
-                innerClass="pagination pagination-lg justify-content-center mt-3"
-                itemClass="page-item"
-                linkClass="page-link"
-                activeClass="active"
-                prevPageText="Previous"
-                nextPageText="Next"
-                activePage={this.state.activePage}
-                itemsCountPerPage={10}
-                totalItemsCount={this.props.tweets.length}
+              <ReactPaginate
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                breakLabel={<a href="#" onClick={ (e) => e.preventDefault() }>...</a>}
+                breakClassName={"page-link"}
+                pageCount={this.props.tweets.length / this.state.itemsPerPage}
+                marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
-                onChange={this.handlePageChange}
+                onPageChange={this.handlePageChange}
+                containerClassName={"pagination pagination-lg justify-content-center mt-3"}
+                pageClassName={"page-item"}
+                nextClassName={"page-item"}
+                previousClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousLinkClassName={"page-link"}
+                nextLinkClassName={"page-link"}
+                activeClassName={"active"}
               />
             </div>
           </div>
