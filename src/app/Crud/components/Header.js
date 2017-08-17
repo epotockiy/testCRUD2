@@ -22,6 +22,7 @@ export class Header extends React.Component {
           <div className="container navbar-nav">
             <NavLink className="nav-item nav-link" activeClassName="active" to={'/tweets'}>Home</NavLink>
             <NavLink className="nav-item nav-link" activeClassName="active" to={'/create'}>Create</NavLink>
+            <NavLink className="nav-item nav-link" activeClassName="active" to={'/users'}>Users</NavLink>
           </div>
         </div>
       </nav>

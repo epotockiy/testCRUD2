@@ -88,7 +88,9 @@ class TweetDetail extends React.Component {
           </div>
 
           <div className="col-md-10">
-            <Link className="text-center" to={'/user/' + this.state.user.id}>Posted by: {this.state.user.id} {this.state.user.name}</Link>
+            <Link className="text-center" to={'/user/' + this.state.user.id}>
+              Posted by: {this.state.user.id} {this.state.user.name}
+            </Link>
           </div>
         </div>
 
@@ -112,11 +114,11 @@ class TweetDetail extends React.Component {
 
         {this.props.comments.map(comment => {
           return (
-              <Comment
-                key={comment.id + Math.random().toString(32).substr(2, 5)}
-                comment={comment}
-                onDeleteComment={() => this.deleteComment(comment.id)}
-              />
+            <Comment
+              key={comment.id + Math.random().toString(32).substr(2, 5)}
+              comment={comment}
+              onDeleteComment={() => this.deleteComment(comment.id)}
+            />
           );
         })}
 
