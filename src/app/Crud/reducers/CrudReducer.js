@@ -4,7 +4,7 @@ const CrudReducer = (
 state = {
   tweets: [],
   comments: [],
-  currentTweet: 0
+  currentTweet: 1
 },
 action) => {
   switch (action.type) {
