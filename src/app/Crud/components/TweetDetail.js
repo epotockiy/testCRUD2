@@ -31,11 +31,13 @@ class TweetDetail extends React.Component {
   }
 
   getTweetComments() {
-    fetch('http://jsonplaceholder.typicode.com/posts/' + this.state.currentTweet.id + '/comments')
-      .then(res => res.json())
-      .then(comments => {
-        this.props.setComments(comments);
-      });
+    if (!this.props.comments.length) {
+      fetch('http://jsonplaceholder.typicode.com/posts/' + this.state.currentTweet.id + '/comments')
+          .then(res => res.json())
+          .then(comments => {
+            this.props.setComments(comments);
+          });
+    }
   }
 
   getUser() {
