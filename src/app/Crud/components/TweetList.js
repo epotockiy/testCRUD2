@@ -21,13 +21,15 @@ class TweetList extends React.Component {
   }
 
   getTweets() {
-    fetch('http://jsonplaceholder.typicode.com/posts')
-      .then(res => res.json())
-      .then(
-        tweets => {
-          this.props.setTweets(tweets);
-        }
-      );
+    if (!this.props.tweets.length) {
+      fetch('http://jsonplaceholder.typicode.com/posts')
+        .then(res => res.json())
+        .then(
+          tweets => {
+            this.props.setTweets(tweets);
+          }
+        );
+    }
   }
 
   onDeleteClick(id) {
@@ -57,9 +59,9 @@ class TweetList extends React.Component {
   render() {
     return (
       <div className="row">
-        {this.props.tweets.map(tweet => {
-          if (tweet.id >= (this.state.activePage - 1) * this.state.itemsPerPage &&
-              tweet.id <= this.state.activePage * this.state.itemsPerPage) {
+        {this.props.tweets.map((tweet, index) => {
+          if (index >= (this.state.activePage - 1) * this.state.itemsPerPage &&
+              index < this.state.activePage * this.state.itemsPerPage) {
             return (
               <Tweet
                 key={tweet.id + Math.random().toString(32).substr(2, 5)}

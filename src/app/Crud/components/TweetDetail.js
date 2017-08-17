@@ -13,18 +13,25 @@ class TweetDetail extends React.Component {
     this.addComment = this.addComment.bind(this);
 
     this.state = {
+      currentTweet: {},
       user: {},
       commentInput: ''
     };
   }
 
   componentDidMount() {
-    this.getUser();
-    this.getTweetComments();
+    this.setState({
+      currentTweet: this.props.tweets.find(tweet => {
+        return (tweet.id === this.props.currentTweet)
+      })
+    }, () => {
+      this.getUser();
+      this.getTweetComments();
+    });
   }
 
   getTweetComments() {
-    fetch('http://jsonplaceholder.typicode.com/posts/' + this.props.tweets[this.props.currentTweet - 1].id + '/comments')
+    fetch('http://jsonplaceholder.typicode.com/posts/' + this.state.currentTweet.id + '/comments')
       .then(res => res.json())
       .then(comments => {
         this.props.setComments(comments);
@@ -32,7 +39,7 @@ class TweetDetail extends React.Component {
   }
 
   getUser() {
-    fetch('http://jsonplaceholder.typicode.com/users/' + this.props.tweets[this.props.currentTweet - 1].userId)
+    fetch('http://jsonplaceholder.typicode.com/users/' + this.state.currentTweet.userId)
       .then(res => res.json())
       .then(user => {
         this.setState({
@@ -43,7 +50,7 @@ class TweetDetail extends React.Component {
 
   addComment(title, body) {
     let newComment = {
-      postId: this.props.tweets[this.props.currentTweet - 1].id,
+      postId: this.state.currentTweet.id,
       id: Math.floor(Math.random() * 1000 + 501),
       name: title,
       body: body,
@@ -97,7 +104,7 @@ class TweetDetail extends React.Component {
               <div className="col-11">
                 {this.props.tweets.length > 0 ? (
                     <h4 className="card-title">
-                      #{this.props.tweets[this.props.currentTweet - 1].id} {this.props.tweets[this.props.currentTweet - 1].title}
+                      #{this.state.currentTweet.id} {this.state.currentTweet.title}
                     </h4>
                 ) : (
                   <h3>Loading...</h3>
@@ -118,7 +125,7 @@ class TweetDetail extends React.Component {
           <div className="card-body">
             {this.props.tweets.length > 0 ? (
               <p className="card-text">
-                {this.props.tweets[this.props.currentTweet - 1].body}
+                {this.state.currentTweet.body}
               </p>
             ) : (
               <h3>Loading...</h3>

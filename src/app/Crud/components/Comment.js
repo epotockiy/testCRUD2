@@ -17,7 +17,7 @@ export class Comment extends React.Component {
   updateComment() {
     console.log('updating comment #' + this.props.comment.id);
     fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
-        .then(res => res.json());
+      .then(res => res.json());
   }
 
   onCommentEdit(event) {

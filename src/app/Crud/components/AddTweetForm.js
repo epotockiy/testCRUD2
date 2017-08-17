@@ -1,28 +1,22 @@
-import React    from 'react';
-import { Link } from 'react-router-dom';
+import React                   from 'react';
+import { connect             } from 'react-redux';
+import { Link                } from 'react-router-dom';
+import * as crudReducerActions from './../actions/CrudReducerActions';
 
-export class AddTweetForm extends React.Component {
+class AddTweetForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleInputBodyChange  = this.handleInputBodyChange.bind(this);
     this.handleInputTitleChange = this.handleInputTitleChange.bind(this);
+    this.handleInputUserChange  = this.handleInputUserChange.bind(this);
+    this.addTweet               = this.addTweet.bind(this);
 
     this.state = {
       inputTitle: '',
-      inputBody: ''
+      inputBody: '',
+      inputUser: 1
     }
-  }
-
-  onSubmit(event) {
-    event.preventDefault();
-
-    let newTweet = {
-      userId: Math.floor(Math.random() * 10),
-      id: Math.random().toString(32).substr(2, 10),
-      title: this.state.inputTitle,
-      body: this.state.inputBody
-    };
   }
 
   handleInputTitleChange(event) {
@@ -37,49 +31,99 @@ export class AddTweetForm extends React.Component {
     });
   }
 
+  handleInputUserChange(event) {
+    this.setState({
+      inputUser: event.target.value
+    });
+  }
+
+  addTweet() {
+    console.log(this.state.inputTitle);
+    let newTweet = {
+      userId: this.state.inputUser,
+      id: Math.floor(Math.random() * 1000 + 501),
+      title: this.state.inputTitle,
+      body: this.state.inputBody
+    };
+
+    console.log('adding new tweet: ', newTweet);
+    fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
+      .then(res => res.json())
+      .then(res => {
+        this.props.setTweets([newTweet, ...this.props.tweets]);
+      });
+  }
+
   render() {
     return (
       <div className="container">
         <h3 className="m-3 text-center">Post new tweets</h3>
 
-        <form className="m-2"  onSubmit={this.onSubmit}>
-          <div className="row justify-content-center">
-            <div className="form-group col-md-3">
-              <input type="text"
-                     id="tweet-title"
-                     className="form-control"
-                     placeholder="Title"
-                     value={this.state.inputTitle}
-                     onChange={this.handleInputTitleChange}
-              />
-            </div>
-
-            <div className="form-group col-md-5">
-              <input type="text"
-                     id="tweet-body"
-                     className="form-control"
-                     placeholder="Text"
-                     value={this.state.inputBody}
-                     onChange={this.handleInputBodyChange}
-              />
-            </div>
-
-            <div className="col-md-1">
-              <Link role="button"
-                    className="btn btn-danger"
-                    disabled={!this.state.inputTitle.length || !this.state.inputBody.length}
-                    to={'/tweets?tweet=' + JSON.stringify({
-                      userId: Math.floor(Math.random() * 10),
-                      id: Math.random().toString(32).substr(2, 10),
-                      title: this.state.inputTitle,
-                      body: this.state.inputBody
-                    })}>
-                Post
-              </Link>
-            </div>
+        <form className="mt-2 ml-auto mr-auto form-inline justify-content-between col-8">
+          <div className="form-group">
+            <input
+              type="text"
+              id="tweet-title"
+              className="form-control"
+              placeholder="Title"
+              value={this.state.inputTitle}
+              onChange={this.handleInputTitleChange}
+            />
           </div>
+
+          <div className="form-group">
+            <input
+              type="text"
+              id="tweet-body"
+              className="form-control"
+              placeholder="Text"
+              value={this.state.inputBody}
+              onChange={this.handleInputBodyChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="user" className="h5 mr-2">User id</label>
+            <select
+              className="form-control"
+              id="user"
+              value={this.state.inputUser}
+              onChange={this.handleInputUserChange}
+            >
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+              <option value={9}>9</option>
+              <option value={10}>10</option>
+            </select>
+          </div>
+
+          <Link role="button"
+                to={'/tweets'}
+                className="btn btn-danger float-right"
+                disabled={!this.state.inputTitle.length || !this.state.inputBody.length}
+                onClick={this.addTweet}>
+            Post
+          </Link>
         </form>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tweets: state.tweets
+  }
+};
+
+const mapDispatchToProps = {
+  setTweets: crudReducerActions.setTweets
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTweetForm);

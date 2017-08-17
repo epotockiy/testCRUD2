@@ -21,10 +21,14 @@ class EditTweet extends React.Component {
   }
 
   componentDidMount() {
+    let currentTweet = this.props.tweets.find(tweet => {
+      return (tweet.id === this.props.currentTweet)
+    });
+
     this.setState({
-      inputTitle: this.props.tweets[this.props.currentTweet - 1].title,
-      inputBody:  this.props.tweets[this.props.currentTweet - 1].body,
-      inputUser:  this.props.tweets[this.props.currentTweet - 1].userId,
+      inputTitle: currentTweet.title,
+      inputBody:  currentTweet.body,
+      inputUser:  currentTweet.userId,
     })
   }
 
@@ -60,7 +64,7 @@ class EditTweet extends React.Component {
               ...this.props.tweets.slice(0, i),
               {
                 userId: +this.state.inputUser,
-                id: (i + 1),
+                id: this.props.currentTweet,
                 title: this.state.inputTitle,
                 body: this.state.inputBody
               },
