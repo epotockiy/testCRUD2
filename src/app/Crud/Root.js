@@ -1,7 +1,8 @@
 import React                   from 'react';
-import { Route, Redirect     } from 'react-router-dom';
+import { Route, Switch     } from 'react-router-dom';
 import { Header              } from './components/Header';
 import { UserList            } from './components/UserList';
+import { NotFound            } from './components/NotFound';
 import AddTweetForm            from './components/AddTweetForm';
 import EditTweet               from './components/EditTweet';
 import User                    from './components/User';
@@ -14,15 +15,15 @@ export class Root extends React.Component {
       <div className="container">
         <Header />
 
-        <div>
-          <Redirect from={'/'} to={'/tweets'} />
+        <Switch>
           <Route path={'/tweets'}           component={TweetList} />
           <Route path={'/tweet-detail/:id'} component={TweetDetail} />
           <Route path={'/create'}           component={AddTweetForm} />
           <Route path={'/users'}            component={UserList} />
           <Route path={'/user/:id'}         component={User} />
           <Route path={'/edit'}             component={EditTweet} />
-        </div>
+          <Route path={'/*'}                component={NotFound} />
+        </Switch>
       </div>
     );
   }
