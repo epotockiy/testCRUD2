@@ -13,13 +13,13 @@ export const NotFound = () => {
           <h4>The page you are looking for does not exist</h4>
           <ul className="nav nav-pills nav-fill mt-3">
             <li className="nav-item">
-              <Link to={'/tweets'} className="nav-link">Go home</Link>
+              <Link to='/tweets' className="nav-link">Go home</Link>
             </li>
             <li className="nav-item">
-              <Link to={'/create'} className="nav-link">Add new post</Link>
+              <Link to='/create' className="nav-link">Add new post</Link>
             </li>
             <li className="nav-item">
-              <Link to={'/users'} className="nav-link">Users</Link>
+              <Link to='/users' className="nav-link">Users</Link>
             </li>
           </ul>
         </div>

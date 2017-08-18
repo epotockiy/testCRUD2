@@ -12,7 +12,7 @@ export class Comment extends React.Component {
     this.state = {
       isEditing: false,
       commentInput: ''
-    }
+    };
   }
 
   updateComment() {
@@ -58,11 +58,12 @@ export class Comment extends React.Component {
             <div className="card-body">
               {this.state.isEditing ? (
                 <div className="form-group">
-                  <textarea className="form-control"
-                            name="comment"
-                            rows="3"
-                            value={this.state.commentInput}
-                            onChange={this.handleInputChange}>
+                  <textarea
+                    className="form-control"
+                    name="comment"
+                    rows="3"
+                    value={this.state.commentInput}
+                    onChange={this.handleInputChange}>
                   </textarea>
                 </div>
               ) : (
@@ -70,20 +71,20 @@ export class Comment extends React.Component {
               )}
 
               <a href="#"
-                 onClick={this.onCommentEdit}
-                 className="btn btn-primary">
+                onClick={this.onCommentEdit}
+                className="btn btn-primary">
                 {this.state.isEditing ? 'Save' : 'Edit'}
               </a>
               <a href="#"
-                 onClick={(e) => { e.preventDefault(); this.props.onDeleteComment(); }}
-                 className="btn btn-danger ml-2">
+                onClick={(e) => { e.preventDefault(); this.props.onDeleteComment(); }}
+                className="btn btn-danger ml-2">
                 Delete
               </a>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

@@ -10,7 +10,7 @@ export class UserList extends React.Component {
     this.state = {
       users: [],
       isDataLoaded: false
-    }
+    };
   }
 
   componentDidMount() {
@@ -36,9 +36,10 @@ export class UserList extends React.Component {
             <div className="list-group">
               {this.state.users.map(user => {
                 return (
-                  <Link className="list-group-item list-group-item-action"
-                        key={user.id}
-                        to={'/user/' + user.id}>
+                  <Link
+                    className="list-group-item list-group-item-action"
+                    key={user.id}
+                    to={'/user/' + user.id}>
                     {user.id}) {user.name}
                   </Link>
                 );

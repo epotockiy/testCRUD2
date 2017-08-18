@@ -1,4 +1,9 @@
-import { createStore } from 'redux';
-import CrudReducer     from './reducers/CrudReducer';
+import thunkMiddleware from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import DataReducer                      from './reducers/DataReducer';
 
-export default createStore(CrudReducer);
+export default createStore(
+  DataReducer,
+  applyMiddleware(
+    thunkMiddleware
+  ));

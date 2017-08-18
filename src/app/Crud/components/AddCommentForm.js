@@ -12,7 +12,7 @@ export class AddCommentForm extends React.Component {
     this.state = {
       inputTitle: '',
       inputBody: ''
-    }
+    };
   }
 
   handleInputTitleChange(event) {

@@ -19,14 +19,16 @@ export const Tweet = (props) => {
         </div>
 
         <div className="card-footer bg-transparent">
-          <Link onClick={props.setCurrentTweet}
-                className="btn btn-primary"
-                to={'/tweet-detail/' + props.tweet.id}>
+          <Link
+            onClick={props.setCurrentTweet}
+            className="btn btn-primary"
+            to={'/tweet-detail/' + props.tweet.id}>
             Details
           </Link>
-          <a href="#"
-             className="btn btn-danger ml-2"
-             onClick={(e) => { e.preventDefault(); props.onDeleteClick(); }}>
+          <a
+            href="#"
+            className="btn btn-danger ml-2"
+            onClick={(e) => { e.preventDefault(); props.onDeleteClick(); }}>
             Delete
           </a>
         </div>
@@ -37,5 +39,6 @@ export const Tweet = (props) => {
 
 Tweet.propTypes = {
   tweet: PropTypes.object,
-  onDeleteClick: PropTypes.func
+  onDeleteClick: PropTypes.func,
+  setCurrentTweet: PropTypes.func
 };

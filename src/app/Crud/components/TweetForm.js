@@ -1,12 +1,12 @@
+/*
 import React                   from 'react';
 import PropTypes               from 'prop-types';
 import { connect             } from 'react-redux';
-import * as dataReducerActions from './../actions/DataReducerActions';
+import * as crudReducerActions from './../actions/CrudReducerActions';
 
-class EditTweet extends React.Component {
+class TweetForm extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.handleInputTitleChange = this.handleInputTitleChange.bind(this);
     this.handleInputBodyChange  = this.handleInputBodyChange.bind(this);
@@ -16,7 +16,8 @@ class EditTweet extends React.Component {
     this.state = {
       inputTitle: '',
       inputBody: '',
-      inputUser: 1
+      inputUser: 1,
+      type: ''
     };
   }
 
@@ -29,6 +30,7 @@ class EditTweet extends React.Component {
       inputTitle: currentTweet.title,
       inputBody:  currentTweet.body,
       inputUser:  currentTweet.userId,
+      type:       this.props.match.params.type
     });
   }
 
@@ -115,16 +117,9 @@ class EditTweet extends React.Component {
                 value={this.state.inputUser}
                 onChange={this.handleInputUserChange}
               >
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9</option>
-                <option value={10}>10</option>
+                {this.state.users.map((user, index) => {
+                  return (<option value={index}>{user}</option>);
+                })}
               </select>
             </div>
 
@@ -132,12 +127,19 @@ class EditTweet extends React.Component {
               className="btn btn-primary"
               onClick={this.saveTweet}
               disabled={!this.state.inputTitle.length || !this.state.inputBody.length}>
-              Save
+              {this.state.type === 'edit' ? 'Save' : 'Post'}
             </button>
 
             <button
               className="btn btn-danger ml-3"
-              onClick={() => { this.props.history.push('/tweet-detail/' + this.props.currentTweet); }}>
+              onClick={() => {
+                if (this.state.type === 'edit') {
+                  this.props.history.push('/tweet-detail/' + this.props.currentTweet);
+                } else {
+                  this.props.history.push('/tweets');
+                }
+              }}
+            >
               Cancel
             </button>
           </form>
@@ -147,22 +149,26 @@ class EditTweet extends React.Component {
   }
 }
 
-EditTweet.propTypes = {
+TweetForm.propTypes = {
   tweets: PropTypes.array.isRequired,
   currentTweet: PropTypes.number.isRequired,
+  users: PropTypes.array.isRequired,
   setTweets: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired()
 };
 
 const mapStateToProps = (state) => {
   return {
-    // tweets: state.tweets,
-    // currentTweet: state.currentTweet
+    tweets: state.tweets,
+    currentTweet: state.currentTweet,
+    users: state.users
   };
 };
 
 const mapDispatchToProps = {
-  setTweets: dataReducerActions.setTweets
+  setTweets: crudReducerActions.setTweets
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTweet);
+export default connect(mapStateToProps, mapDispatchToProps)(TweetForm);
+*/

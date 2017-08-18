@@ -1,8 +1,9 @@
 import React                   from 'react';
 import { connect             } from 'react-redux';
 import { Link                } from 'react-router-dom';
+import PropTypes               from 'prop-types';
 import { _addTweet           } from './TweetService';
-import * as crudReducerActions from './../actions/CrudReducerActions';
+import * as dataReducerActions from './../actions/DataReducerActions';
 
 class AddTweetForm extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class AddTweetForm extends React.Component {
       inputTitle: '',
       inputBody: '',
       inputUser: 1
-    }
+    };
   }
 
   handleInputTitleChange(event) {
@@ -48,7 +49,7 @@ class AddTweetForm extends React.Component {
 
     console.log('adding new tweet: ', newTweet);
     _addTweet()
-      .then(res => {
+      .then(() => {
         this.props.setTweets([newTweet, ...this.props.tweets]);
       });
   }
@@ -102,11 +103,12 @@ class AddTweetForm extends React.Component {
             </select>
           </div>
 
-          <Link role="button"
-                to={'/tweets'}
-                className="btn btn-danger float-right"
-                disabled={!this.state.inputTitle.length || !this.state.inputBody.length}
-                onClick={this.addTweet}>
+          <Link
+            role="button"
+            to={'/tweets'}
+            className="btn btn-danger float-right"
+            disabled={!this.state.inputTitle.length || !this.state.inputBody.length}
+            onClick={this.addTweet}>
             Post
           </Link>
         </form>
@@ -115,14 +117,18 @@ class AddTweetForm extends React.Component {
   }
 }
 
+AddTweetForm.propTypes = {
+  tweets: PropTypes.array
+};
+
 const mapStateToProps = (state) => {
   return {
     tweets: state.tweets
-  }
+  };
 };
 
 const mapDispatchToProps = {
-  setTweets: crudReducerActions.setTweets
+  setTweets: dataReducerActions.setTweets
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTweetForm);

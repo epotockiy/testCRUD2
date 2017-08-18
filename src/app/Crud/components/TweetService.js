@@ -1,5 +1,15 @@
-export function _getTweets() {
+export function _getNumberOfPosts() {
   return fetch('http://jsonplaceholder.typicode.com/posts')
+    .then(res => res.json().length);
+}
+
+export function _getNumberOfUsers() {
+  return fetch('http://jsonplaceholder.typicode.com/users')
+    .then(res => res.json().length);
+}
+
+export function _getTweets(page, limit) {
+  return fetch('http://jsonplaceholder.typicode.com/posts?_page=' + page + '&_limit=' + limit)
     .then(res => res.json());
 }
 

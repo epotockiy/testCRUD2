@@ -3,7 +3,7 @@ import { connect                } from 'react-redux';
 import { Tweet                  } from './Tweet';
 import { Loader                 } from './Loader';
 import { _getUser, _deleteTweet } from './TweetService';
-import * as crudReducerActions    from './../actions/CrudReducerActions';
+import * as dataReducerActions from './../actions/DataReducerActions';
 
 class User extends React.Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class User extends React.Component {
         {this.state.isDataLoaded ? (
           <div className="card col-12 ml-auto mr-auto">
             <div className="card-body">
-              <img className="rounded float-left m-3" style={{"width": "10em"}} src="http://pngimages.net/sites/default/files/users--blue-flag-png-image-100720.png" alt="Card image cap" />
+              <img className="rounded float-left m-3" style={{'width': '10em'}} src="http://pngimages.net/sites/default/files/users--blue-flag-png-image-100720.png" alt="Card image cap" />
               <div className="mt-3 mb-3 ml-5 mr-5">
                 <h4 className="card-title">{this.state.user.name}</h4>
                 <p className="card-text">Nickname: {this.state.user.username}</p>
@@ -90,12 +90,12 @@ const mapStateToProps = (state) => {
   return {
     tweets: state.tweets,
     currentTweet: state.currentTweet
-  }
+  };
 };
 
 const mapDispatchToProps = {
-  setTweets: crudReducerActions.setTweets,
-  setCurrentTweet: crudReducerActions.setCurrentTweet
+  setTweets: dataReducerActions.setTweets,
+  setCurrentTweet: dataReducerActions.setCurrentTweet
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);
