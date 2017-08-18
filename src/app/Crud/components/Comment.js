@@ -1,5 +1,6 @@
-import React     from 'react';
-import PropTypes from 'prop-types';
+import React              from 'react';
+import PropTypes          from 'prop-types';
+import { _updateComment } from './TweetService';
 
 export class Comment extends React.Component {
   constructor(props) {
@@ -16,8 +17,7 @@ export class Comment extends React.Component {
 
   updateComment() {
     console.log('updating comment #' + this.props.comment.id);
-    fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
-      .then(res => res.json());
+    _updateComment();
   }
 
   onCommentEdit(event) {

@@ -1,8 +1,9 @@
-import React                   from 'react';
-import { connect             } from 'react-redux';
-import { Tweet               } from './Tweet';
-import { Loader              } from './Loader';
-import * as crudReducerActions from './../actions/CrudReducerActions';
+import React                      from 'react';
+import { connect                } from 'react-redux';
+import { Tweet                  } from './Tweet';
+import { Loader                 } from './Loader';
+import { _getUser, _deleteTweet } from './TweetService';
+import * as crudReducerActions    from './../actions/CrudReducerActions';
 
 class User extends React.Component {
   constructor(props) {
@@ -19,8 +20,7 @@ class User extends React.Component {
   }
 
   getUserInfo() {
-    fetch('http://jsonplaceholder.typicode.com/users/' + this.props.match.params.id)
-      .then(res => res.json())
+    _getUser(this.props.match.params.id)
       .then(user => {
         this.setState({
           isDataLoaded: true,
@@ -32,8 +32,7 @@ class User extends React.Component {
   onDeleteClick(id) {
     console.log('deleting tweet #' + id);
 
-    fetch('http://jsonplaceholder.typicode.com/posts/1', {method: 'DELETE', cache: 'reload'})
-      .then(res => res.json())
+    _deleteTweet()
       .then(res => {
         for (let i = 0; i < this.props.tweets.length; ++i) {
           if (this.props.tweets[i].id === id) {

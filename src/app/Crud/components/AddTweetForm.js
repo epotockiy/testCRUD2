@@ -1,6 +1,7 @@
 import React                   from 'react';
 import { connect             } from 'react-redux';
 import { Link                } from 'react-router-dom';
+import { _addTweet           } from './TweetService';
 import * as crudReducerActions from './../actions/CrudReducerActions';
 
 class AddTweetForm extends React.Component {
@@ -38,7 +39,6 @@ class AddTweetForm extends React.Component {
   }
 
   addTweet() {
-    console.log(this.state.inputTitle);
     let newTweet = {
       userId: this.state.inputUser,
       id: Math.floor(Math.random() * 1000 + 501),
@@ -47,8 +47,7 @@ class AddTweetForm extends React.Component {
     };
 
     console.log('adding new tweet: ', newTweet);
-    fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
-      .then(res => res.json())
+    _addTweet()
       .then(res => {
         this.props.setTweets([newTweet, ...this.props.tweets]);
       });

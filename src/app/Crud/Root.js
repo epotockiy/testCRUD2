@@ -19,7 +19,7 @@ export class Root extends React.Component {
           <Route path={'/tweets'}           component={TweetList} />
           <Route path={'/tweet-detail/:id'} component={TweetDetail} />
           <Route path={'/create'}           component={AddTweetForm} />
-          <Route path={'/users'}            component={UserList}/>
+          <Route path={'/users'}            component={UserList} />
           <Route path={'/user/:id'}         component={User} />
           <Route path={'/edit'}             component={EditTweet} />
         </div>

@@ -1,6 +1,7 @@
-import React      from 'react';
-import { Link   } from 'react-router-dom';
-import { Loader } from './Loader';
+import React         from 'react';
+import { Link      } from 'react-router-dom';
+import { Loader    } from './Loader';
+import { _getUsers } from './TweetService';
 
 export class UserList extends React.Component {
   constructor(props) {
@@ -17,8 +18,7 @@ export class UserList extends React.Component {
   }
 
   getUsers() {
-    fetch('http://jsonplaceholder.typicode.com/users')
-      .then(res => res.json())
+    _getUsers()
       .then(users => {
         this.setState({
           users: users,

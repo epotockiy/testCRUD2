@@ -1,9 +1,10 @@
-import React                   from 'react';
-import { connect             } from 'react-redux';
-import { Tweet               } from './Tweet';
-import { Loader              } from './Loader';
-import ReactPaginate           from 'react-paginate';
-import * as crudReducerActions from './../actions/CrudReducerActions';
+import React                        from 'react';
+import { connect                  } from 'react-redux';
+import { Tweet                    } from './Tweet';
+import { Loader                   } from './Loader';
+import { _getTweets, _deleteTweet } from './TweetService';
+import ReactPaginate                from 'react-paginate';
+import * as crudReducerActions      from './../actions/CrudReducerActions';
 
 class TweetList extends React.Component {
   constructor(props) {
@@ -24,8 +25,7 @@ class TweetList extends React.Component {
 
   getTweets() {
     if (!this.props.tweets.length) {
-      fetch('http://jsonplaceholder.typicode.com/posts')
-        .then(res => res.json())
+      _getTweets()
         .then(
           tweets => {
             this.props.setTweets(tweets);
@@ -44,8 +44,7 @@ class TweetList extends React.Component {
   onDeleteClick(id) {
     console.log('deleting tweet #' + id);
 
-    fetch('http://jsonplaceholder.typicode.com/posts/1', {method: 'DELETE', cache: 'reload'})
-      .then(res => res.json())
+    _deleteTweet()
       .then(res => {
         for (let i = 0; i < this.props.tweets.length; ++i) {
           if (this.props.tweets[i].id === id) {

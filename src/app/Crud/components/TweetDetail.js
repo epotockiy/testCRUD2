@@ -6,6 +6,12 @@ import { AddCommentForm      } from './AddCommentForm';
 import { Loader              } from './Loader';
 import PropTypes               from 'prop-types';
 import * as crudReducerActions from './../actions/CrudReducerActions';
+import {
+  _getTweetComments,
+  _getUser,
+  _addComment,
+  _deleteComment
+} from './TweetService';
 
 class TweetDetail extends React.Component {
   constructor(props) {
@@ -34,8 +40,7 @@ class TweetDetail extends React.Component {
 
   getTweetComments() {
     if (!this.props.comments.length) {
-      fetch('http://jsonplaceholder.typicode.com/posts/' + this.state.currentTweet.id + '/comments')
-        .then(res => res.json())
+      _getTweetComments(this.state.currentTweet.id)
         .then(comments => {
           this.props.setComments(comments);
           this.setState({
@@ -50,8 +55,7 @@ class TweetDetail extends React.Component {
   }
 
   getUser() {
-    fetch('http://jsonplaceholder.typicode.com/users/' + this.state.currentTweet.userId)
-      .then(res => res.json())
+    _getUser(this.state.currentTweet.userId)
       .then(user => {
         this.setState({
           user: user
@@ -69,8 +73,7 @@ class TweetDetail extends React.Component {
     };
 
     console.log('adding new comment:', newComment);
-    fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
-      .then(res => res.json())
+    _addComment()
       .then(res => {
         this.props.setComments([newComment, ...this.props.comments]);
       });
@@ -79,8 +82,7 @@ class TweetDetail extends React.Component {
   deleteComment(id) {
     console.log('deleting comment #' + id);
 
-    fetch('http://jsonplaceholder.typicode.com/posts/1', {method: 'DELETE', cache: 'reload'})
-      .then(res => res.json())
+    _deleteComment()
       .then(res => {
         for (let i = 0; i < this.props.comments.length; ++i) {
           if (this.props.comments[i].id === id) {
@@ -116,19 +118,19 @@ class TweetDetail extends React.Component {
                   <div className="row">
                     <div className="col-11">
                       {this.props.tweets.length > 0 ? (
-                          <h4 className="card-title">
-                            #{this.state.currentTweet.id} {this.state.currentTweet.title}
-                          </h4>
+                        <h4 className="card-title">
+                          #{this.state.currentTweet.id} {this.state.currentTweet.title}
+                        </h4>
                       ) : (
-                          <h3>Loading...</h3>
+                        <h3>Loading...</h3>
                       )}
                     </div>
 
                     <div className="col-1">
                       <Link
-                          role="button"
-                          className="btn btn-info"
-                          to={'/edit'}>
+                        role="button"
+                        className="btn btn-info"
+                        to={'/edit'}>
                         Edit
                       </Link>
                     </div>
@@ -137,11 +139,11 @@ class TweetDetail extends React.Component {
 
                 <div className="card-body">
                   {this.props.tweets.length > 0 ? (
-                      <p className="card-text">
-                        {this.state.currentTweet.body}
-                      </p>
+                    <p className="card-text">
+                      {this.state.currentTweet.body}
+                    </p>
                   ) : (
-                      <h3>Loading...</h3>
+                    <h3>Loading...</h3>
                   )}
                 </div>
               </div>
