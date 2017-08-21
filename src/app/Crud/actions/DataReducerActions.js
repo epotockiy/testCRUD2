@@ -2,37 +2,20 @@ import {
   SET_TWEETS,
   SET_COMMENTS,
   SET_CURRENT_TWEET,
-  SET_CURRENT_USER,
   SET_USERS,
   SET_ALL_TWEETS,
-  GET_TWEETS,
-  GET_TWEET_COMMENTS,
   ADD_TWEET,
   ADD_COMMENT,
   UPDATE_TWEET,
   UPDATE_COMMENT,
   DELETE_TWEET,
   DELETE_COMMENT,
-  REQUEST_DATA,
-  RECEIVE_DATA
+  REQUEST_DATA
 } from './actionTypes';
 
 export function requestData() {
   return {
     type: REQUEST_DATA
-  };
-}
-
-export function receiveData() {
-  return {
-    type: RECEIVE_DATA
-  };
-}
-
-export function setTweets(tweets) {
-  return {
-    type: SET_TWEETS,
-    payload: tweets
   };
 }
 
@@ -47,13 +30,6 @@ export function setCurrentTweet(currentTweet) {
   return {
     type: SET_CURRENT_TWEET,
     payload: currentTweet
-  };
-}
-
-export function setCurrentUser(currentUser) {
-  return {
-    type: SET_CURRENT_USER,
-    payload: currentUser
   };
 }
 

@@ -2,20 +2,15 @@ import {
   SET_TWEETS,
   SET_COMMENTS,
   SET_CURRENT_TWEET,
-  SET_CURRENT_USER,
   SET_USERS,
   SET_ALL_TWEETS,
-  GET_TWEETS,
   ADD_TWEET,
-  UPDATE_TWEET,
-  DELETE_TWEET,
-  GET_TWEET_COMMENTS,
   ADD_COMMENT,
+  UPDATE_TWEET,
   UPDATE_COMMENT,
+  DELETE_TWEET,
   DELETE_COMMENT,
-  GET_USERS,
-  REQUEST_DATA,
-  RECEIVE_DATA
+  REQUEST_DATA
 } from './../actions/actionTypes';
 
 const DataReducer = (
@@ -59,21 +54,12 @@ const DataReducer = (
       currentTweet: action.payload
     };
 
-  case SET_CURRENT_USER:
-    return {
-      ...state,
-      currentUser: action.payload
-    };
-
   case SET_USERS:
     return {
       ...state,
       users: action.payload,
       isFetching: false
     };
-
-  case GET_TWEETS:
-    return action.payload;
 
   case ADD_TWEET:
     return {
@@ -104,9 +90,6 @@ const DataReducer = (
         ...state.tweets.slice(action.payload + 1, state.tweets.length)
       ]
     };
-
-  case GET_TWEET_COMMENTS:
-    return action.payload;
 
   case ADD_COMMENT:
     return {
@@ -139,19 +122,10 @@ const DataReducer = (
       isFetching: false
     };
 
-  case GET_USERS:
-    return action.payload;
-
   case REQUEST_DATA:
     return {
       ...state,
       isFetching: true
-    };
-
-  case RECEIVE_DATA:
-    return {
-      ...state,
-      isFetching: false
     };
 
   default:
