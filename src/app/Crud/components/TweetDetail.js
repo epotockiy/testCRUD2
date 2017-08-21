@@ -136,6 +136,14 @@ TweetDetail.propTypes = {
   updateComment:    PropTypes.func
 };
 
+TweetDetail.defaultProps = {
+  tweets: [],
+  comments: [],
+  users: [],
+  currentTweet: 1,
+  isFetching: true
+};
+
 const mapStateToProps = (state) => {
   return {
     isFetching:   state.isFetching,

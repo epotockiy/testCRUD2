@@ -165,11 +165,12 @@ CrudForm.propTypes = {
 };
 
 CrudForm.defaultProps = {
-  type:          '',
-  history:       {},
-  match:         { params: { type: '' } },
-  currentTweet:  1,
-  tweets:        []
+  type: '',
+  history: {},
+  match: { params: { type: '' } },
+  currentTweet: 1,
+  tweets: [],
+  users: []
 };
 
 const mapStateToProps = (state) => {

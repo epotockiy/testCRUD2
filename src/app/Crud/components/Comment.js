@@ -94,3 +94,7 @@ Comment.propTypes = {
   onDeleteComment: PropTypes.func,
   onUpdateComment: PropTypes.func
 };
+
+Comment.defaultProps = {
+  comment: {}
+};

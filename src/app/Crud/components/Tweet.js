@@ -45,3 +45,7 @@ Tweet.propTypes = {
   onDeleteClick:   PropTypes.func,
   setCurrentTweet: PropTypes.func
 };
+
+Tweet.defaultProps = {
+  tweet: {}
+};

@@ -94,15 +94,23 @@ class TweetList extends React.Component {
 
 TweetList.propTypes = {
   tweets:          PropTypes.array,
+  numberOfTweets:  PropTypes.number,
+  isFetching:      PropTypes.bool,
+  history:         PropTypes.object,
+  match:           PropTypes.object,
   setCurrentTweet: PropTypes.func,
   deleteTweet:     PropTypes.func,
   getTweets:       PropTypes.func,
   getAllTweets:    PropTypes.func,
-  requestData:     PropTypes.func,
-  isFetching:      PropTypes.bool,
-  history:         PropTypes.object,
-  match:           PropTypes.object,
-  numberOfTweets:  PropTypes.number
+  requestData:     PropTypes.func
+};
+
+TweetList.defaultProps = {
+  tweets: [],
+  numberOfTweets: 0,
+  isFetching: true,
+  history: {},
+  match: {}
 };
 
 const mapStateToProps = (state) => {

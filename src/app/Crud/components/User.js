@@ -62,11 +62,18 @@ User.propTypes = {
   tweets:          PropTypes.array,
   users:           PropTypes.array,
   isFetching:      PropTypes.bool,
+  match:           PropTypes.object,
   deleteTweet:     PropTypes.func,
   setCurrentTweet: PropTypes.func,
   requestData:     PropTypes.func,
-  getUserTweets:   PropTypes.func,
-  match:           PropTypes.object
+  getUserTweets:   PropTypes.func
+};
+
+User.dafaultProps = {
+  tweets: [],
+  users: [],
+  isFetching: true,
+  match: {}
 };
 
 const mapStateToProps = (state) => {

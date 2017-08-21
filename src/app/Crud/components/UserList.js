@@ -49,6 +49,11 @@ UserList.propTypes = {
   getUsers:   PropTypes.func
 };
 
+UserList.defaultProps = {
+  users: [],
+  isFetching: true
+};
+
 const mapStateToProps = (state) => {
   return {
     users: state.users,
