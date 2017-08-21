@@ -15,16 +15,11 @@ export class Comment extends React.Component {
     };
   }
 
-  updateComment() {
-    console.log('updating comment #' + this.props.comment.id);
-    _updateComment();
-  }
-
   onCommentEdit(event) {
     event.preventDefault();
 
     if (this.state.isEditing) {
-      this.updateComment();
+      this.props.onUpdateComment(this.state.commentInput);
     }
 
     if (this.state.commentInput.length) {

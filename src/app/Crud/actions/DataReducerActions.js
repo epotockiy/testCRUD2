@@ -2,11 +2,10 @@ import {
   SET_TWEETS,
   SET_COMMENTS,
   SET_CURRENT_TWEET,
+  SET_CURRENT_USER,
   SET_USERS,
   GET_TWEETS,
   GET_TWEET_COMMENTS,
-  GET_USERS,
-  GET_USER,
   ADD_TWEET,
   ADD_COMMENT,
   UPDATE_TWEET,
@@ -17,9 +16,15 @@ import {
   RECEIVE_DATA
 } from './actionTypes';
 
-function requestData() {
+export function requestData() {
   return {
     type: REQUEST_DATA
+  };
+}
+
+export function receiveData() {
+  return {
+    type: RECEIVE_DATA
   };
 }
 
@@ -41,6 +46,13 @@ export function setCurrentTweet(currentTweet) {
   return {
     type: SET_CURRENT_TWEET,
     payload: currentTweet
+  };
+}
+
+export function setCurrentUser(currentUser) {
+  return {
+    type: SET_CURRENT_USER,
+    payload: currentUser
   };
 }
 
@@ -142,23 +154,21 @@ export function deleteTweet(index) {
   };
 }
 
-function _getTweetComments(comments) {
+function _setTweetComments(comments) {
   return {
-    type: GET_TWEET_COMMENTS,
+    type: SET_COMMENTS,
     payload: comments
   };
 }
 
 export function getTweetComments(id) {
   return function(dispatch) {
-    dispatch(requestData());
-
     return fetch('http://jsonplaceholder.typicode.com/posts/' + id + '/comments')
       .then(
         response => response.json(),
         error => console.log('An error occurred.', error)
       )
-      .then(comments => dispatch(_getTweetComments(comments)));
+      .then(comments => dispatch(_setTweetComments(comments)));
   };
 }
 
@@ -171,8 +181,6 @@ function _addComment(comment) {
 
 export function addComment(comment) {
   return function(dispatch) {
-    dispatch(requestData());
-
     return fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
       .then(
         response => response.json(),
@@ -182,23 +190,22 @@ export function addComment(comment) {
   };
 }
 
-function _updateComment(comment) {
+function _updateComment(comment, index) {
   return {
     type: UPDATE_COMMENT,
-    payload: comment
+    payload: comment,
+    index: index
   };
 }
 
-export function updateComment(comment) {
+export function updateComment(comment, index) {
   return function(dispatch) {
-    dispatch(requestData());
-
     return fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
       .then(
         response => response.json(),
         error => console.log('An error occurred.', error)
       )
-      .then(() => dispatch(_updateComment(comment)));
+      .then(() => dispatch(_updateComment(comment, index)));
   };
 }
 
@@ -211,8 +218,6 @@ function _deleteComment(id) {
 
 export function deleteComment(id) {
   return function(dispatch) {
-    dispatch(requestData());
-
     return fetch('http://jsonplaceholder.typicode.com/posts/1', {method: 'DELETE', cache: 'reload'})
       .then(
         response => response.json(),
@@ -222,9 +227,9 @@ export function deleteComment(id) {
   };
 }
 
-function _getUsers(users) {
+function _receiveUsers(users) {
   return {
-    type: GET_USERS,
+    type: SET_USERS,
     payload: users
   };
 }
@@ -238,27 +243,6 @@ export function getUsers() {
         response => response.json(),
         error => console.log('An error occurred.', error)
       )
-      .then(users => dispatch(_getUsers(users)));
-  };
-}
-
-function _getUser(user) {
-  return {
-    type: GET_USER,
-    payload: user
-  };
-}
-
-export function getUser(id) {
-  return function(dispatch) {
-    dispatch(requestData());
-    console.log('!!!');
-
-    return fetch('http://jsonplaceholder.typicode.com/users/' + id)
-      .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
-      )
-      .then(user => dispatch(_getUser(user)));
+      .then(users => dispatch(_receiveUsers(users)));
   };
 }

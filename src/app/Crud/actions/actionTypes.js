@@ -1,6 +1,7 @@
 export const SET_TWEETS        = 'SET_TWEETS';
 export const SET_COMMENTS      = 'SET_COMMENTS';
 export const SET_CURRENT_TWEET = 'SET_CURRENT_TWEET';
+export const SET_CURRENT_USER  = 'SET_CURRENT_USER';
 export const SET_USERS         = 'SET_USERS';
 
 export const GET_TWEETS         = 'GET_TWEETS';

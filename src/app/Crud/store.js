@@ -1,9 +1,13 @@
 import thunkMiddleware from 'redux-thunk';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import DataReducer                      from './reducers/DataReducer';
+import DataReducer     from './reducers/DataReducer';
+import {
+  createStore,
+  combineReducers,
+  applyMiddleware }    from 'redux';
 
 export default createStore(
   DataReducer,
   applyMiddleware(
     thunkMiddleware
-  ));
+  )
+);

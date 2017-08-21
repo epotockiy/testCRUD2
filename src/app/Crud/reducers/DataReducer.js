@@ -2,6 +2,7 @@ import {
   SET_TWEETS,
   SET_COMMENTS,
   SET_CURRENT_TWEET,
+  SET_CURRENT_USER,
   SET_USERS,
   GET_TWEETS,
   ADD_TWEET,
@@ -12,7 +13,6 @@ import {
   UPDATE_COMMENT,
   DELETE_COMMENT,
   GET_USERS,
-  GET_USER,
   REQUEST_DATA,
   RECEIVE_DATA
 } from './../actions/actionTypes';
@@ -22,8 +22,9 @@ const DataReducer = (
     isFetching: false,
     tweets: [],
     comments: [],
+    users: [],
     currentTweet: 1,
-    users: []
+    currentUser: 1
   },
   action) => {
   switch (action.type) {
@@ -45,8 +46,13 @@ const DataReducer = (
   case SET_CURRENT_TWEET:
     return {
       ...state,
-      currentTweet: action.payload,
-      isFetching: false
+      currentTweet: action.payload
+    };
+
+  case SET_CURRENT_USER:
+    return {
+      ...state,
+      currentUser: action.payload
     };
 
   case SET_USERS:
@@ -73,9 +79,9 @@ const DataReducer = (
     return {
       ...state,
       tweets: [
-        ...state.tweets.slice(1, action.payload.id),
+        ...state.tweets.slice(1, action.index),
         action.payload,
-        ...state.tweets.slice(action.payload.id + 1, state.tweets.length)
+        ...state.tweets.slice(action.index + 1, state.tweets.length)
       ],
       isFetching: false
     };
@@ -106,9 +112,9 @@ const DataReducer = (
     return {
       ...state,
       comments: [
-        ...state.comments.slice(1, action.payload.id),
+        ...state.comments.slice(1, action.index),
         action.payload,
-        ...state.comments.slice(action.payload.id + 1, state.comments.length)
+        ...state.comments.slice(action.index + 1, state.comments.length)
       ],
       isFetching: false
     };
@@ -117,7 +123,7 @@ const DataReducer = (
     return {
       ...state,
       comments: [
-        ...state.comments.slice(1, action.payload),
+        ...state.comments.slice(0, action.payload),
         ...state.comments.slice(action.payload + 1, state.comments.length)
       ],
       isFetching: false
@@ -126,11 +132,7 @@ const DataReducer = (
   case GET_USERS:
     return action.payload;
 
-  case GET_USER:
-    return action.payload;
-
   case REQUEST_DATA:
-    console.log('here');
     return {
       ...state,
       isFetching: true
@@ -139,8 +141,7 @@ const DataReducer = (
   case RECEIVE_DATA:
     return {
       ...state,
-      isFetching: false,
-      [action.type]: action.payload
+      isFetching: false
     };
 
   default:

@@ -3366,7 +3366,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 /***/ }),
 /* 276 */
 /*!**********************************************!*\
-  !*** ./src/app/Crud/components/TweetForm.js ***!
+  !*** ./src/app/Crud/components/Form.js ***!
   \**********************************************/
 /*! no static exports found */
 /*! all exports used */

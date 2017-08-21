@@ -50,8 +50,11 @@ class TweetList extends React.Component {
                 <Tweet
                   key={tweet.id + Math.random().toString(32).substr(2, 5)}
                   tweet={tweet}
-                  onDeleteClick={() => this.props.deleteTweet(index)}
-                  setCurrentTweet={() => { this.props.setCurrentTweet(index); }}
+                  onDeleteClick={() => { this.props.deleteTweet(index); }}
+                  setCurrentTweet={() => {
+                    this.props.requestData();
+                    this.props.setCurrentTweet(index);
+                  }}
                 />
               );
             })}
@@ -93,6 +96,8 @@ TweetList.propTypes = {
   deleteTweet: PropTypes.func,
   getTweets: PropTypes.func,
   getAllTweets: PropTypes.func,
+  setCurrentUser: PropTypes.func,
+  requestData: PropTypes.func,
   isFetching: PropTypes.bool
 };
 
@@ -110,7 +115,9 @@ const mapDispatchToProps = {
   setCurrentTweet: dataReducerActions.setCurrentTweet,
   getTweets: dataReducerActions.getTweets,
   getAllTweets: dataReducerActions.getAllTweets,
-  deleteTweet: dataReducerActions.deleteTweet
+  deleteTweet: dataReducerActions.deleteTweet,
+  requestData: dataReducerActions.requestData,
+  setCurrentUser: dataReducerActions.setCurrentUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TweetList);

@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Header        } from './components/Header';
 import { UserList      } from './components/UserList';
 import { NotFound      } from './components/NotFound';
-import TweetForm         from './components/TweetForm';
+import TweetForm         from './components/Form';
 import AddTweetForm      from './components/AddTweetForm';
 import EditTweet         from './components/EditTweet';
 import User              from './components/User';

@@ -2,7 +2,7 @@ import React                   from 'react';
 import { Link                } from 'react-router-dom';
 import { connect             } from 'react-redux';
 import { Comment             } from './Comment';
-import { AddCommentForm      } from './AddCommentForm';
+import { Form                } from './Form';
 import { Loader              } from './Loader';
 import PropTypes               from 'prop-types';
 import * as dataReducerActions from './../actions/DataReducerActions';
@@ -11,35 +11,51 @@ class TweetDetail extends React.Component {
   constructor(props) {
     super(props);
 
+    this.onAddComment = this.onAddComment.bind(this);
+
     this.state = {
-      user: {},
-      commentInput: '',
-      isDataLoaded: false
+      commentInput: ''
     };
   }
 
   componentDidMount() {
-    this.props.getUser(this.props.currentTweet)
-      .then(res => {
-        console.log(res);
-      });
-    this.setState({
-      user:{}
-    }, () => {
-      console.log(this.state.user);
-      this.props.getTweetComments(this.props.currentTweet)
+    if (!this.props.users.length) {
+      this.props.getUsers()
         .then(() => {
-          this.setState({
-            isDataLoaded: true
-          });
+          this.props.getTweetComments(this.props.tweets[this.props.currentTweet].id);
         });
+    } else {
+      console.log(this.props.currentTweet);
+      this.props.getTweetComments(this.props.tweets[this.props.currentTweet].id);
+    }
+  }
+
+  onAddComment(data) {
+    console.log(data);
+    this.props.addComment({
+      postId: this.props.tweets[this.props.currentTweet].id,
+      id:     Math.floor(Math.random() * 1000 + 501),
+      name:   data.title,
+      email:  Math.random().toString(32).substr(2, 10),
+      body:   data.body
     });
+    /*else {
+    if (this.state.type === 'tweet') {
+      this.props.updateTweet({
+        userId: +this.state.inputUser,
+        id: this.props.tweets[this.props.currentTweet].id,
+        title: this.state.inputTitle,
+        body: this.state.inputBody
+      })
+        .then(() => this.props.history.push('/tweet-detail/' + this.props.tweets[this.props.currentTweet].id));
+    }
+  }*/
   }
 
   render() {
     return (
       <div>
-        {!this.state.isDataLoaded ? (
+        {!this.props.isFetching ? (
           <div className="m-3">
             <div className="row p-3">
               <div className="col-md-1">
@@ -47,8 +63,8 @@ class TweetDetail extends React.Component {
               </div>
 
               <div className="col-md-5">
-                <Link className="nav-link" to={'/user/' + this.state.user.id}>
-                  Posted by: {this.state.user.id} {this.state.user.name}
+                <Link className="nav-link" to={'/user/' + this.props.tweets[this.props.currentTweet].userId}>
+                  Posted by: {this.props.tweets[this.props.currentTweet].userId} {this.props.users[this.props.tweets[this.props.currentTweet].userId].name}
                 </Link>
               </div>
             </div>
@@ -84,26 +100,34 @@ class TweetDetail extends React.Component {
               </div>
             </div>
 
+            <div className="row">
+              <div className="col-8 ml-auto mr-auto mt-3 p-5 bg-light">
+                <h4 className="text-center">Add new comment</h4>
+                <Form
+                  onSubmitClick={this.onAddComment}
+                  isShowCancel={false}
+                  inputTitlePlaceholder={''}
+                  inputBodyPlaceholder={''}
+                  inputUserPlaceholder={1}
+                />
+              </div>
+            </div>
+
             <h4 className="text-center p-3">Comments:</h4>
 
-            <AddCommentForm
-              addComment={(title, body) => {
-                this.props.addComment({
-                  postId: this.state.currentTweet.id,
-                  id: Math.floor(Math.random() * 1000 + 501),
-                  name: title,
-                  body: body,
-                  email: Math.random().toString(32).substr(2, 10)
-                });
-              }}
-            />
-
-            {this.props.comments.map(comment => {
+            {this.props.comments.map((comment, index) => {
               return (
                 <Comment
-                  key={comment.id}
+                  key={index}
                   comment={comment}
-                  onDeleteComment={() => this.props.deleteComment(comment.id)}
+                  onDeleteComment={() => this.props.deleteComment(index)}
+                  onUpdateComment={(body) => {
+                    this.props.updateComment({
+                      ...this.props.comments[index],
+                      body: body
+                    },
+                    index);
+                  }}
                 />
               );
             })}
@@ -117,31 +141,38 @@ class TweetDetail extends React.Component {
 }
 
 TweetDetail.propTypes = {
-  tweets: PropTypes.array,
-  comments: PropTypes.array,
-  currentTweet: PropTypes.number,
-  isFetching: PropTypes.bool,
-  getUser: PropTypes.func,
+  tweets:           PropTypes.array,
+  comments:         PropTypes.array,
+  users:            PropTypes.array,
+  currentTweet:     PropTypes.number,
+  isFetching:       PropTypes.bool,
+  getUsers:         PropTypes.func,
   getTweetComments: PropTypes.func,
-  deleteComment: PropTypes.func,
-  addComment: PropTypes.func
+  deleteComment:    PropTypes.func,
+  addComment:       PropTypes.func,
+  updateTweet:      PropTypes.func,
+  updateComment:    PropTypes.func,
+  history:          PropTypes.object
 };
 
 const mapStateToProps = (state) => {
   return {
-    isFetching: state.isFetching,
-    tweets: state.tweets,
-    comments: state.comments,
+    isFetching:   state.isFetching,
+    tweets:       state.tweets,
+    comments:     state.comments,
+    users:        state.users,
     currentTweet: state.currentTweet
   };
 };
 
 const mapDispatchToProps = {
-  setComments: dataReducerActions.setComments,
-  getUser: dataReducerActions.getUser,
+  setComments:      dataReducerActions.setComments,
+  getUsers:         dataReducerActions.getUsers,
   getTweetComments: dataReducerActions.getTweetComments,
-  deleteComment: dataReducerActions.deleteComment,
-  addComment: dataReducerActions.addComment
+  deleteComment:    dataReducerActions.deleteComment,
+  addComment:       dataReducerActions.addComment,
+  updateTweet:      dataReducerActions.updateTweet,
+  updateComment:      dataReducerActions.updateComment
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TweetDetail);
