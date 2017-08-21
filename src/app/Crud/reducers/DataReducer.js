@@ -4,6 +4,7 @@ import {
   SET_CURRENT_TWEET,
   SET_CURRENT_USER,
   SET_USERS,
+  SET_ALL_TWEETS,
   GET_TWEETS,
   ADD_TWEET,
   UPDATE_TWEET,
@@ -23,11 +24,20 @@ const DataReducer = (
     tweets: [],
     comments: [],
     users: [],
+    numberOfTweets: 1,
     currentTweet: 1,
     currentUser: 1
   },
   action) => {
   switch (action.type) {
+
+  case SET_ALL_TWEETS:
+    return {
+      ...state,
+      tweets: action.payload,
+      numberOfTweets: action.payload.length,
+      isFetching: false
+    };
 
   case SET_TWEETS:
     return {

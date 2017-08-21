@@ -1,9 +1,9 @@
 import React             from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Header        } from './components/Header';
-import { UserList      } from './components/UserList';
 import { NotFound      } from './components/NotFound';
 import Form              from './components/Form';
+import UserList          from './components/UserList';
 import User              from './components/User';
 import TweetList         from './components/TweetList';
 import TweetDetail       from './components/TweetDetail';
@@ -14,6 +14,7 @@ export const Root = () => {
       <Header />
 
       <Switch>
+        <Route path='/tweets/:page'     component={TweetList} />
         <Route path='/tweets'           component={TweetList} />
         <Route path='/tweet-detail/:id' component={TweetDetail} />
         <Route path='/users'            component={UserList} />

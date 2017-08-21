@@ -94,7 +94,7 @@ class Form extends React.Component {
             } else {
               if (this.props.match.params.type === 'edit') {
                 this.props.updateTweet({
-                  userId: this.props.tweets[this.props.currentTweet].userId,
+                  userId: this.state.inputUser,
                   id: this.props.tweets[this.props.currentTweet].id,
                   title: this.state.inputTitle,
                   body: this.state.inputBody

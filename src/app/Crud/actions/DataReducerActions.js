@@ -4,6 +4,7 @@ import {
   SET_CURRENT_TWEET,
   SET_CURRENT_USER,
   SET_USERS,
+  SET_ALL_TWEETS,
   GET_TWEETS,
   GET_TWEET_COMMENTS,
   ADD_TWEET,
@@ -58,7 +59,7 @@ export function setCurrentUser(currentUser) {
 
 function _receiveAllTweets(tweets) {
   return {
-    type: SET_TWEETS,
+    type: SET_ALL_TWEETS,
     payload: tweets
   };
 }
@@ -93,6 +94,26 @@ export function getTweets(page, limit) {
         error => console.log('An error occurred.', error)
       )
       .then(tweets => dispatch(_receiveTweets(tweets)));
+  };
+}
+
+function _getUserTweets(tweets) {
+  return {
+    type: SET_TWEETS,
+    payload: tweets
+  };
+}
+
+export function getUserTweets(id) {
+  return function(dispatch) {
+    dispatch(requestData());
+
+    return fetch('http://jsonplaceholder.typicode.com/posts?userId=' + id)
+      .then(
+        response => response.json(),
+        error => console.log('An error occurred.', error)
+      )
+      .then(tweets => dispatch(_getUserTweets(tweets)));
   };
 }
 

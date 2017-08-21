@@ -1,40 +1,29 @@
-import React         from 'react';
-import { Link      } from 'react-router-dom';
-import { Loader    } from './Loader';
-import { _getUsers } from './TweetService';
+import React                   from 'react';
+import PropTypes               from 'prop-types';
+import { connect             } from 'react-redux';
+import { Link                } from 'react-router-dom';
+import { Loader              } from './Loader';
+import * as dataReducerActions from './../actions/DataReducerActions';
 
-export class UserList extends React.Component {
+class UserList extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      users: [],
-      isDataLoaded: false
-    };
   }
 
   componentDidMount() {
-    this.getUsers();
-  }
-
-  getUsers() {
-    _getUsers()
-      .then(users => {
-        this.setState({
-          users: users,
-          isDataLoaded: true
-        });
-      });
+    if (!this.props.users.length) {
+      this.props.getUsers();
+    }
   }
 
   render() {
     return (
       <div className="row m-3">
-        {this.state.isDataLoaded ? (
+        {!this.props.isFetching ? (
           <div className="col-5 ml-auto mr-auto">
             <h3 className="text-center mb-2">All users:</h3>
             <div className="list-group">
-              {this.state.users.map(user => {
+              {this.props.users.map(user => {
                 return (
                   <Link
                     className="list-group-item list-group-item-action"
@@ -53,3 +42,22 @@ export class UserList extends React.Component {
     );
   }
 }
+
+UserList.propTypes = {
+  users:      PropTypes.array,
+  isFetching: PropTypes.bool,
+  getUsers:   PropTypes.func
+};
+
+const mapStateToProps = (state) => {
+  return {
+    users: state.users,
+    isFetching: state.isFetching
+  };
+};
+
+const mapDispatchToProps = {
+  getUsers: dataReducerActions.getUsers
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

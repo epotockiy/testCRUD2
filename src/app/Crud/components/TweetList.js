@@ -13,7 +13,6 @@ class TweetList extends React.Component {
     this.handlePageChange = this.handlePageChange.bind(this);
 
     this.state = {
-      numberOfPosts: null,
       numberOfUsers: 0,
       activePage: 1,
       itemsPerPage: 10,
@@ -22,14 +21,14 @@ class TweetList extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.tweets.length) {
+    this.setState({
+      activePage: this.props.match.params.page
+    });
+
+    if (!this.props.tweets.length || this.props.tweets[0].id !== 1) {
       this.props.getAllTweets()
         .then(() => {
-          this.setState({
-            numberOfPosts: this.props.tweets.length
-          }, () => {
-            this.props.getTweets();
-          });
+          this.props.getTweets(this.props.match.params.page || 1, this.state.itemsPerPage);
         });
     }
   }
@@ -38,6 +37,7 @@ class TweetList extends React.Component {
     this.setState({
       activePage: data.selected + 1
     }, () => {
+      this.props.history.push('/tweets/' + this.state.activePage, this.state.itemsPerPage);
       this.props.getTweets(this.state.activePage, this.state.itemsPerPage);
     });
   }
@@ -60,30 +60,33 @@ class TweetList extends React.Component {
                 />
               );
             })}
+
+            <div className="w-100">
+              <ReactPaginate
+                previousLabel='Previous'
+                nextLabel='Next'
+                breakLabel={<a href="#" onClick={e => e.preventDefault()}>...</a>}
+                breakClassName='page-link'
+                initialPage={+this.state.activePage - 1}
+                pageCount={this.props.numberOfTweets / this.state.itemsPerPage}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePageChange}
+                containerClassName='pagination pagination-lg justify-content-center mt-3'
+                disableInitialCallback={true}
+                pageClassName='page-item'
+                nextClassName='page-item'
+                previousClassName='page-item'
+                pageLinkClassName='page-link'
+                previousLinkClassName='page-link'
+                nextLinkClassName='page-link'
+                activeClassName='active'
+              />
+            </div>
           </div>
         ) : (
           <Loader/>
         )}
-        <div className="w-100">
-          <ReactPaginate
-            previousLabel='Previous'
-            nextLabel='Next'
-            breakLabel={<a href="#" onClick={e => e.preventDefault()}>...</a>}
-            breakClassName='page-link'
-            pageCount={this.state.numberOfPosts / this.state.itemsPerPage}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageChange}
-            containerClassName='pagination pagination-lg justify-content-center mt-3'
-            pageClassName='page-item'
-            nextClassName='page-item'
-            previousClassName='page-item'
-            pageLinkClassName='page-link'
-            previousLinkClassName='page-link'
-            nextLinkClassName='page-link'
-            activeClassName='active'
-          />
-        </div>
       </div>
     );
   }
@@ -96,13 +99,17 @@ TweetList.propTypes = {
   getTweets:       PropTypes.func,
   getAllTweets:    PropTypes.func,
   requestData:     PropTypes.func,
-  isFetching:      PropTypes.bool
+  isFetching:      PropTypes.bool,
+  history:         PropTypes.object,
+  match:           PropTypes.object,
+  numberOfTweets:  PropTypes.number
 };
 
 const mapStateToProps = (state) => {
   return {
-    isFetching: state.isFetching,
-    tweets:     state.tweets
+    isFetching:     state.isFetching,
+    tweets:         state.tweets,
+    numberOfTweets: state.numberOfTweets
   };
 };
 

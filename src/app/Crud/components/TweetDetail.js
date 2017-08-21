@@ -2,8 +2,8 @@ import React                   from 'react';
 import { Link                } from 'react-router-dom';
 import { connect             } from 'react-redux';
 import { Comment             } from './Comment';
-import Form                    from './Form';
 import { Loader              } from './Loader';
+import Form                    from './Form';
 import PropTypes               from 'prop-types';
 import * as dataReducerActions from './../actions/DataReducerActions';
 
@@ -37,17 +37,6 @@ class TweetDetail extends React.Component {
       email:  Math.random().toString(32).substr(2, 10),
       body:   data.body
     });
-    /*else {
-    if (this.state.type === 'tweet') {
-      this.props.updateTweet({
-        userId: +this.state.inputUser,
-        id: this.props.tweets[this.props.currentTweet].id,
-        title: this.state.inputTitle,
-        body: this.state.inputBody
-      })
-        .then(() => this.props.history.push('/tweet-detail/' + this.props.tweets[this.props.currentTweet].id));
-    }
-  }*/
   }
 
   render() {
@@ -57,12 +46,12 @@ class TweetDetail extends React.Component {
           <div className="m-3">
             <div className="row p-3">
               <div className="col-md-1">
-                <Link className="btn btn-primary" to='/tweets'>Back</Link>
+                <Link className="btn btn-primary" to='/tweets/1'>Back</Link>
               </div>
 
               <div className="col-md-5">
                 <Link className="nav-link" to={'/user/' + this.props.tweets[this.props.currentTweet].userId}>
-                  Posted by: {this.props.tweets[this.props.currentTweet].userId} {this.props.users[this.props.tweets[this.props.currentTweet].userId].name}
+                  Posted by: {this.props.tweets[this.props.currentTweet].userId} {this.props.users[this.props.tweets[this.props.currentTweet].userId - 1].name}
                 </Link>
               </div>
             </div>
