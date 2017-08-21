@@ -1,9 +1,9 @@
 import React                        from 'react';
+import ReactPaginate                from 'react-paginate';
+import PropTypes                    from 'prop-types';
 import { connect                  } from 'react-redux';
 import { Tweet                    } from './Tweet';
 import { Loader                   } from './Loader';
-import ReactPaginate                from 'react-paginate';
-import PropTypes                    from 'prop-types';
 import * as dataReducerActions      from './../actions/DataReducerActions';
 
 class TweetList extends React.Component {
@@ -22,14 +22,16 @@ class TweetList extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getAllTweets()
-      .then(() => {
-        this.setState({
-          numberOfPosts: this.props.tweets.length
-        }, () => {
-          this.props.getTweets();
+    if (!this.props.tweets.length) {
+      this.props.getAllTweets()
+        .then(() => {
+          this.setState({
+            numberOfPosts: this.props.tweets.length
+          }, () => {
+            this.props.getTweets();
+          });
         });
-      });
+    }
   }
 
   handlePageChange(data) {
@@ -88,36 +90,28 @@ class TweetList extends React.Component {
 }
 
 TweetList.propTypes = {
-  tweets: PropTypes.array,
-  comments: PropTypes.array,
-  setTweets: PropTypes.func,
-  setComments: PropTypes.func,
+  tweets:          PropTypes.array,
   setCurrentTweet: PropTypes.func,
-  deleteTweet: PropTypes.func,
-  getTweets: PropTypes.func,
-  getAllTweets: PropTypes.func,
-  setCurrentUser: PropTypes.func,
-  requestData: PropTypes.func,
-  isFetching: PropTypes.bool
+  deleteTweet:     PropTypes.func,
+  getTweets:       PropTypes.func,
+  getAllTweets:    PropTypes.func,
+  requestData:     PropTypes.func,
+  isFetching:      PropTypes.bool
 };
 
 const mapStateToProps = (state) => {
   return {
     isFetching: state.isFetching,
-    tweets: state.tweets,
-    comments: state.comments
+    tweets:     state.tweets
   };
 };
 
 const mapDispatchToProps = {
-  setTweets: dataReducerActions.setTweets,
-  setComments: dataReducerActions.setComments,
   setCurrentTweet: dataReducerActions.setCurrentTweet,
-  getTweets: dataReducerActions.getTweets,
-  getAllTweets: dataReducerActions.getAllTweets,
-  deleteTweet: dataReducerActions.deleteTweet,
-  requestData: dataReducerActions.requestData,
-  setCurrentUser: dataReducerActions.setCurrentUser
+  getTweets:       dataReducerActions.getTweets,
+  getAllTweets:    dataReducerActions.getAllTweets,
+  deleteTweet:     dataReducerActions.deleteTweet,
+  requestData:     dataReducerActions.requestData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TweetList);

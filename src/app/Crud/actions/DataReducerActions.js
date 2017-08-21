@@ -116,14 +116,15 @@ export function addTweet(tweet) {
   };
 }
 
-function _updateTweet(tweet) {
+function _updateTweet(tweet, index) {
   return {
     type: UPDATE_TWEET,
-    payload: tweet
+    payload: tweet,
+    index: index
   };
 }
 
-export function updateTweet(tweet) {
+export function updateTweet(tweet, index) {
   return function(dispatch) {
     dispatch(requestData());
 
@@ -132,7 +133,7 @@ export function updateTweet(tweet) {
         response => response.json(),
         error => console.log('An error occurred.', error)
       )
-      .then(() => dispatch(_updateTweet(tweet)));
+      .then(() => dispatch(_updateTweet(tweet, index)));
   };
 }
 

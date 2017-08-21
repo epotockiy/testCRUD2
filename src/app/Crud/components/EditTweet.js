@@ -61,7 +61,7 @@ class EditTweet extends React.Component {
         for (let i = 0; i < this.props.tweets.length; ++i) {
           if (this.props.tweets[i].id === this.props.currentTweet) {
             this.props.setTweets([
-              ...this.props.tweets.slice(0, i),,
+              ...this.props.tweets.slice(0, i),
               ...this.props.tweets.slice(i + 1)
             ]);
 

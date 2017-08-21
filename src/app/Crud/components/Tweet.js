@@ -38,7 +38,7 @@ export const Tweet = (props) => {
 };
 
 Tweet.propTypes = {
-  tweet: PropTypes.object,
-  onDeleteClick: PropTypes.func,
+  tweet:           PropTypes.object,
+  onDeleteClick:   PropTypes.func,
   setCurrentTweet: PropTypes.func
 };

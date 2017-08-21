@@ -79,7 +79,7 @@ const DataReducer = (
     return {
       ...state,
       tweets: [
-        ...state.tweets.slice(1, action.index),
+        ...state.tweets.slice(0, action.index),
         action.payload,
         ...state.tweets.slice(action.index + 1, state.tweets.length)
       ],

@@ -1,13 +1,13 @@
 import React                   from 'react';
+import { connect             } from 'react-redux';
 import PropTypes               from 'prop-types';
+import * as dataReducerActions from './../actions/DataReducerActions';
 
-export class Form extends React.Component {
+class Form extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleInputTitleChange = this.handleInputTitleChange.bind(this);
-    this.handleInputBodyChange  = this.handleInputBodyChange.bind(this);
-    this.handleInputUserChange  = this.handleInputUserChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
 
     this.state = {
       inputTitle: '',
@@ -17,34 +17,27 @@ export class Form extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      inputTitle: this.props.inputTitlePlaceholder,
-      inputBody:  this.props.inputBodyPlaceholder,
-      inputUser:  this.props.inputUserPlaceholder
-    });
+    if (!this.props.users.length) {
+      this.props.getUsers();
+    }
+    if (this.state.type !== 'comment' && this.props.match.params.type === 'edit') {
+      this.setState({
+        inputTitle: this.props.tweets[this.props.currentTweet].title,
+        inputBody:  this.props.tweets[this.props.currentTweet].body,
+        inputUser:  this.props.tweets[this.props.currentTweet].userId
+      });
+    }
   }
 
-  handleInputBodyChange(event) {
+  handleInputChange(event, field) {
     this.setState({
-      inputBody: event.target.value
-    });
-  }
-
-  handleInputUserChange(event) {
-    this.setState({
-      inputUser: event.target.value
-    });
-  }
-
-  handleInputTitleChange(event) {
-    this.setState({
-      inputTitle: event.target.value
+      [field]: event.target.value
     });
   }
 
   render() {
     return (
-      <form>
+      <form className="m-3">
         <div className="form-group">
           <label htmlFor="title" className="h4">Title</label>
           <input
@@ -52,7 +45,7 @@ export class Form extends React.Component {
             className="form-control"
             id="title"
             value={this.state.inputTitle}
-            onChange={this.handleInputTitleChange}
+            onChange={(e) => this.handleInputChange(e, 'inputTitle')}
           />
         </div>
 
@@ -63,22 +56,20 @@ export class Form extends React.Component {
             id="body"
             rows="5"
             value={this.state.inputBody}
-            onChange={this.handleInputBodyChange}
+            onChange={(e) => this.handleInputChange(e, 'inputBody')}
           />
         </div>
 
-        {this.state.type === 'tweet' ? (
+        {(this.props.type !== 'comment') ? (
           <div className="form-group">
             <label htmlFor="user" className="h4">User id</label>
             <select
               className="form-control"
               id="user"
               value={this.state.inputUser}
-              onChange={this.handleInputUserChange}
+              onChange={(e) => this.handleInputChange(e, 'inputUser')}
             >
-              {this.state.users.map((user, index) => {
-                return (<option value={index}>{user}</option>);
-              })}
+              {this.props.users.map((user, index) => <option key={index} value={user.id}>{user.id} {user.name}</option>)}
             </select>
           </div>
         ) : null}
@@ -88,26 +79,60 @@ export class Form extends React.Component {
           onClick={(event) => {
             event.preventDefault();
 
-            this.props.onSubmitClick({
-              title: this.state.inputTitle,
-              body:  this.state.inputBody,
-              user:  this.state.inputUser
-            });
+            if (this.props.type === 'comment') {
+              this.props.onSubmitClick({
+                title: this.state.inputTitle,
+                body:  this.state.inputBody,
+                user:  this.state.inputUser
+              });
 
-            this.setState({
-              inputTitle: '',
-              inputBody: '',
-              inputUser: 1
-            });
+              this.setState({
+                inputTitle: '',
+                inputBody: '',
+                inputUser: 1
+              });
+            } else {
+              if (this.props.match.params.type === 'edit') {
+                this.props.updateTweet({
+                  userId: this.props.tweets[this.props.currentTweet].userId,
+                  id: this.props.tweets[this.props.currentTweet].id,
+                  title: this.state.inputTitle,
+                  body: this.state.inputBody
+                }, this.props.currentTweet)
+                  .then(() => {
+                    this.props.history.push('/tweet-detail/' + this.props.tweets[this.props.currentTweet].id);
+                  });
+              } else {
+                if (this.props.match.params.type === 'add') {
+                  this.props.addTweet({
+                    userId: this.state.inputUser,
+                    id: Math.floor(Math.random() * 100 + 500),
+                    title: this.state.inputTitle,
+                    body: this.state.inputBody
+                  })
+                    .then(() => {
+                      this.props.history.push('/tweets');
+                    });
+                }
+              }
+            }
           }}
           disabled={!this.state.inputTitle.length || !this.state.inputBody.length}>
           {this.state.type === 'comment' ? 'Save' : 'Post'}
         </button>
 
-        {this.props.isShowCancel ? (
+        {this.props.type !== 'comment' ? (
           <button
             className="btn btn-danger ml-3"
-            onClick={() => { console.log('clicked'); }}
+            onClick={() => {
+              if (this.props.match.params.type === 'edit') {
+                this.props.history.push('/tweet-detail/' + this.props.tweets[this.props.currentTweet].id);
+              } else {
+                if (this.props.match.params.type === 'add') {
+                  this.props.history.push('/tweets');
+                }
+              }
+            }}
           >
             Cancel
           </button>
@@ -118,9 +143,38 @@ export class Form extends React.Component {
 }
 
 Form.propTypes = {
-  onSubmitClick:         PropTypes.func.isRequired,
-  isShowCancel:          PropTypes.bool.isRequired,
-  inputUserPlaceholder:  PropTypes.number.isRequired,
-  inputTitlePlaceholder: PropTypes.string.isRequired,
-  inputBodyPlaceholder:  PropTypes.string.isRequired
+  type:          PropTypes.string,
+  history:       PropTypes.object,
+  match:         PropTypes.object,
+  currentTweet:  PropTypes.number,
+  tweets:        PropTypes.array,
+  users:         PropTypes.array,
+  onSubmitClick: PropTypes.func,
+  getUsers:      PropTypes.func,
+  updateTweet:   PropTypes.func,
+  addTweet:      PropTypes.func
 };
+
+Form.defaultProps = {
+  type:          '',
+  history:       {},
+  match:         { params: { type: '' } },
+  currentTweet:  1,
+  tweets:        []
+};
+
+const mapStateToProps = (state) => {
+  return {
+    tweets:       state.tweets,
+    users:        state.users,
+    currentTweet: state.currentTweet
+  };
+};
+
+const mapDispatchToProps = {
+  updateTweet: dataReducerActions.updateTweet,
+  addTweet:    dataReducerActions.addTweet,
+  getUsers:    dataReducerActions.getUsers
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

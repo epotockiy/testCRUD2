@@ -35,6 +35,7 @@
         "no-unused-vars": 0,
         "no-unreachable": "error",
         "react/prop-types": 2,
-        "react/react-in-jsx-scope": 2
+        "react/react-in-jsx-scope": 2,
+        "react/no-unused-prop-types": 2
     }
 }

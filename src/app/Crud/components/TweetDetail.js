@@ -2,7 +2,7 @@ import React                   from 'react';
 import { Link                } from 'react-router-dom';
 import { connect             } from 'react-redux';
 import { Comment             } from './Comment';
-import { Form                } from './Form';
+import Form                    from './Form';
 import { Loader              } from './Loader';
 import PropTypes               from 'prop-types';
 import * as dataReducerActions from './../actions/DataReducerActions';
@@ -25,13 +25,11 @@ class TweetDetail extends React.Component {
           this.props.getTweetComments(this.props.tweets[this.props.currentTweet].id);
         });
     } else {
-      console.log(this.props.currentTweet);
       this.props.getTweetComments(this.props.tweets[this.props.currentTweet].id);
     }
   }
 
   onAddComment(data) {
-    console.log(data);
     this.props.addComment({
       postId: this.props.tweets[this.props.currentTweet].id,
       id:     Math.floor(Math.random() * 1000 + 501),
@@ -82,7 +80,7 @@ class TweetDetail extends React.Component {
                     <Link
                       role="button"
                       className="btn btn-info"
-                      to='/edit'>
+                      to='/form/edit'>
                       Edit
                     </Link>
                   </div>
@@ -105,10 +103,7 @@ class TweetDetail extends React.Component {
                 <h4 className="text-center">Add new comment</h4>
                 <Form
                   onSubmitClick={this.onAddComment}
-                  isShowCancel={false}
-                  inputTitlePlaceholder={''}
-                  inputBodyPlaceholder={''}
-                  inputUserPlaceholder={1}
+                  type={'comment'}
                 />
               </div>
             </div>
@@ -150,9 +145,7 @@ TweetDetail.propTypes = {
   getTweetComments: PropTypes.func,
   deleteComment:    PropTypes.func,
   addComment:       PropTypes.func,
-  updateTweet:      PropTypes.func,
-  updateComment:    PropTypes.func,
-  history:          PropTypes.object
+  updateComment:    PropTypes.func
 };
 
 const mapStateToProps = (state) => {
@@ -171,8 +164,7 @@ const mapDispatchToProps = {
   getTweetComments: dataReducerActions.getTweetComments,
   deleteComment:    dataReducerActions.deleteComment,
   addComment:       dataReducerActions.addComment,
-  updateTweet:      dataReducerActions.updateTweet,
-  updateComment:      dataReducerActions.updateComment
+  updateComment:    dataReducerActions.updateComment
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TweetDetail);

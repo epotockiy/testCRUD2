@@ -17,7 +17,7 @@ export const Header = () => {
       <div className="collapse navbar-collapse" id="navbarCollapse">
         <div className="container navbar-nav">
           <NavLink className="nav-item nav-link" activeClassName="active" to="/tweets">Home</NavLink>
-          <NavLink className="nav-item nav-link" activeClassName="active" to="/create">Add post</NavLink>
+          <NavLink className="nav-item nav-link" activeClassName="active" to="/form/add">Add post</NavLink>
           <NavLink className="nav-item nav-link" activeClassName="active" to="/users">Users</NavLink>
         </div>
       </div>
