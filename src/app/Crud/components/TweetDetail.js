@@ -3,19 +3,22 @@ import { Link                } from 'react-router-dom';
 import { connect             } from 'react-redux';
 import { Comment             } from './Comment';
 import { Loader              } from './Loader';
-import Form                    from './Form';
+import CrudForm                from './CrudForm';
 import PropTypes               from 'prop-types';
 import * as dataReducerActions from './../actions/DataReducerActions';
+import {
+  Card,
+  CardHeader,
+  CardBlock,
+  CardTitle,
+  CardText
+} from 'reactstrap';
 
 class TweetDetail extends React.Component {
   constructor(props) {
     super(props);
 
     this.onAddComment = this.onAddComment.bind(this);
-
-    this.state = {
-      commentInput: ''
-    };
   }
 
   componentDidMount() {
@@ -56,13 +59,13 @@ class TweetDetail extends React.Component {
               </div>
             </div>
 
-            <div className="card">
-              <div className="card-header">
+            <Card>
+              <CardHeader>
                 <div className="row">
                   <div className="col-11">
-                    <h4 className="card-title">
+                    <CardTitle>
                       #{this.props.tweets[this.props.currentTweet].id} {this.props.tweets[this.props.currentTweet].title}
-                    </h4>
+                    </CardTitle>
                   </div>
 
                   <div className="col-1">
@@ -74,23 +77,19 @@ class TweetDetail extends React.Component {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </CardHeader>
 
-              <div className="card-body">
-                {this.props.tweets.length > 0 ? (
-                  <p className="card-text">
-                    {this.props.tweets[this.props.currentTweet].body}
-                  </p>
-                ) : (
-                  <h3>Loading...</h3>
-                )}
-              </div>
-            </div>
+              <CardBlock>
+                <CardText className='p-3'>
+                  {this.props.tweets[this.props.currentTweet].body}
+                </CardText>
+              </CardBlock>
+            </Card>
 
             <div className="row">
               <div className="col-8 ml-auto mr-auto mt-3 p-5 bg-light">
                 <h4 className="text-center">Add new comment</h4>
-                <Form
+                <CrudForm
                   onSubmitClick={this.onAddComment}
                   type={'comment'}
                 />

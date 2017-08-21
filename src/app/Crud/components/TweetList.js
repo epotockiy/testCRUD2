@@ -25,7 +25,7 @@ class TweetList extends React.Component {
       activePage: this.props.match.params.page
     });
 
-    if (!this.props.tweets.length || this.props.tweets[0].id !== 1) {
+    if (!this.props.tweets.length || !this.props.match.params.page) {
       this.props.getAllTweets()
         .then(() => {
           this.props.getTweets(this.props.match.params.page || 1, this.state.itemsPerPage);

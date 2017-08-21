@@ -1,5 +1,12 @@
 import React              from 'react';
 import PropTypes          from 'prop-types';
+import {
+  Card,
+  CardBlock,
+  CardHeader,
+  Button,
+  Input
+} from 'reactstrap';
 
 export class Comment extends React.Component {
   constructor(props) {
@@ -42,40 +49,40 @@ export class Comment extends React.Component {
 
   render() {
     return (
-      <div className="row justify-content-center">
-        <div className="col-md-8 col-sm-10">
-          <div className="card m-2">
-            <div className="card-header">
+      <div className='row justify-content-center'>
+        <div className='col-md-8 col-sm-10'>
+          <Card className='m-2'>
+            <CardHeader>
               <h5>#{this.props.comment.id} {this.props.comment.name}</h5>
               <p>By: <strong>{this.props.comment.email}</strong></p>
-            </div>
-            <div className="card-body">
+            </CardHeader>
+            <CardBlock className='p-3'>
               {this.state.isEditing ? (
-                <div className="form-group">
-                  <textarea
-                    className="form-control"
-                    name="comment"
-                    rows="3"
+                <div className='form-group'>
+                  <Input type='textarea'
+                    name='comment'
+                    rows='3'
                     value={this.state.commentInput}
                     onChange={this.handleInputChange}>
-                  </textarea>
+                  </Input>
                 </div>
               ) : (
                 <p>{this.props.comment.body}</p>
               )}
 
-              <a href="#"
-                onClick={this.onCommentEdit}
-                className="btn btn-primary">
+              <Button
+                color='primary'
+                onClick={this.onCommentEdit}>
                 {this.state.isEditing ? 'Save' : 'Edit'}
-              </a>
-              <a href="#"
+              </Button>
+              <Button
+                color='danger'
                 onClick={(e) => { e.preventDefault(); this.props.onDeleteComment(); }}
-                className="btn btn-danger ml-2">
+                className='ml-2'>
                 Delete
-              </a>
-            </div>
-          </div>
+              </Button>
+            </CardBlock>
+          </Card>
         </div>
       </div>
     );

@@ -4,6 +4,10 @@ import { connect             } from 'react-redux';
 import { Tweet               } from './Tweet';
 import { Loader              } from './Loader';
 import * as dataReducerActions from './../actions/DataReducerActions';
+import {
+  Card,
+  CardBlock
+} from 'reactstrap';
 
 class User extends React.Component {
   constructor(props) {
@@ -18,8 +22,8 @@ class User extends React.Component {
     return (
       <div className="container mt-3">
         {!this.props.isFetching ? (
-          <div className="card col-12 ml-auto mr-auto">
-            <div className="card-body">
+          <Card className="col-12 ml-auto mr-auto">
+            <CardBlock>
               <img className="rounded float-left m-3" style={{'width': '10em'}} src="http://pngimages.net/sites/default/files/users--blue-flag-png-image-100720.png" alt="Card image cap" />
               <div className="mt-3 mb-3 ml-5 mr-5">
                 <h4 className="card-title">{this.props.users[this.props.match.params.id - 1].name}</h4>
@@ -27,8 +31,9 @@ class User extends React.Component {
                 <h5 className="card-text">Email: {this.props.users[this.props.match.params.id - 1].email}</h5>
                 <h6 className="card-text">Address: {this.props.users[this.props.match.params.id - 1].address.street}, {this.props.users[this.props.match.params.id - 1].address.suite}</h6>
               </div>
-            </div>
-            <div className="card-body">
+            </CardBlock>
+
+            <CardBlock>
               <h4 className="text-center">Tweets:</h4>
               <div className="row">
                 {this.props.tweets.map((tweet, index) =>
@@ -43,8 +48,8 @@ class User extends React.Component {
                   />
                 )}
               </div>
-            </div>
-          </div>
+            </CardBlock>
+          </Card>
         ) : (
           <Loader/>
         )}
