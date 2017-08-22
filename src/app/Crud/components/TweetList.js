@@ -18,7 +18,7 @@ class TweetList extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.tweets.length || !this.props.match.params.page) {
+    if (!this.props.tweets.length) {
       this.props.getAllTweets();
     }
   }
@@ -88,9 +88,9 @@ TweetList.defaultProps = {
 
 const mapStateToProps = (state) => {
   return {
-    isFetching:     state.isFetching,
-    itemsPerPage:   state.itemsPerPage,
-    tweets:         state.tweets
+    isFetching:   state.isFetching,
+    itemsPerPage: state.itemsPerPage,
+    tweets:       state.tweets
   };
 };
 

@@ -1,12 +1,12 @@
-import React             from 'react';
+import React                       from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import { Header        } from './components/Header';
-import { NotFound      } from './components/NotFound';
-import CrudForm          from './components/CrudForm';
-import UserList          from './components/UserList';
-import User              from './components/User';
-import TweetList         from './components/TweetList';
-import TweetDetail       from './components/TweetDetail';
+import { Header                  } from './components/Header';
+import { NotFound                } from './components/NotFound';
+import CrudForm                    from './components/CrudForm';
+import UserList                    from './components/UserList';
+import User                        from './components/User';
+import TweetList                   from './components/TweetList';
+import TweetDetail                 from './components/TweetDetail';
 
 export const Root = () => {
   return (
