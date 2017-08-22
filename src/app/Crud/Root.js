@@ -1,5 +1,5 @@
 import React             from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { Header        } from './components/Header';
 import { NotFound      } from './components/NotFound';
 import CrudForm          from './components/CrudForm';
@@ -14,14 +14,13 @@ export const Root = () => {
       <Header />
 
       <Switch>
-        <Route path='/tweets/:page'     component={TweetList} />
         <Route path='/tweets'           component={TweetList} />
         <Route path='/tweet-detail/:id' component={TweetDetail} />
         <Route path='/users'            component={UserList} />
         <Route path='/user/:id'         component={User} />
         <Route path='/form/:type'       component={CrudForm} />
-        <Route exact path='/'           component={TweetList} />
-        <Route path ='/*'               component={NotFound} />
+        <Route exact path='/' render={() => <Redirect to='/tweets' />} />
+        <Route path='/*'                component={NotFound} />
       </Switch>
     </div>
   );

@@ -21,7 +21,7 @@ export const NotFound = () => {
           <div className="row">
             <Nav pills className='ml-auto mr-auto mt-3'>
               <NavItem>
-                <Link to='/tweets/1' className="nav-link">Go home</Link>
+                <Link to='/tweets' className="nav-link">Go home</Link>
               </NavItem>
               <NavItem>
                 <Link to='/form/add' className="nav-link">Add new post</Link>
