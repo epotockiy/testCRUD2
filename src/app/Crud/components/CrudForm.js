@@ -118,7 +118,7 @@ class CrudForm extends React.Component {
                       body: this.state.inputBody
                     })
                       .then(() => {
-                        this.props.history.push('/tweets/1');
+                        this.props.history.push('/tweets');
                       });
                   }
                 }
