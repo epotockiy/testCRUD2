@@ -1,7 +1,7 @@
-import React     from 'react';
-import PropTypes from 'prop-types';
+import React       from 'react';
+import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
-import { Link  } from 'react-router-dom';
+import { Link    } from 'react-router-dom';
 import {
   Card,
   CardBlock,
@@ -11,11 +11,11 @@ import {
   CardHeader,
   Button
 } from 'reactstrap';
-import * as dataReducerActions      from './../actions/DataReducerActions';
+import * as dataReducerActions from './../actions/DataReducerActions';
 
 const Tweet = (props) => {
   return (
-    <div className='col-md-6 col-sm-6'>
+    <div className='col-md-8 col-sm-8 mr-auto ml-auto'>
       <Card className='m-3'>
         <CardHeader>
           <CardTitle>#{props.tweets[props.index].id} {props.tweets[props.index].title}</CardTitle>

@@ -21,7 +21,8 @@ const DataReducer = (
     users: [],
     numberOfTweets: 1,
     currentTweet: 1,
-    currentUser: 1
+    currentUser: 1,
+    itemsPerPage: 10
   },
   action) => {
   switch (action.type) {

@@ -1,83 +1,66 @@
-import React                        from 'react';
-import ReactPaginate                from 'react-paginate';
-import PropTypes                    from 'prop-types';
-import { connect                  } from 'react-redux';
-import { Loader                   } from './Loader';
-import Tweet                        from './Tweet';
-import * as dataReducerActions      from './../actions/DataReducerActions';
+import React                   from 'react';
+import PropTypes               from 'prop-types';
+import InfiniteScroll          from 'react-infinite-scroller';
+import { connect             } from 'react-redux';
+import { Loader              } from './Loader';
+import Tweet                   from './Tweet';
+import * as dataReducerActions from './../actions/DataReducerActions';
 
 class TweetList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handlePageChange = this.handlePageChange.bind(this);
-
     this.state = {
-      numberOfUsers: 0,
-      activePage: 1,
-      itemsPerPage: 10,
-      isDataLoaded: false
+      tweets: [],
+      page: 0,
+      hasMoreItems: true
     };
   }
 
   componentDidMount() {
-    this.setState({
-      activePage: this.props.match.params.page
-    });
-
     if (!this.props.tweets.length || !this.props.match.params.page) {
-      this.props.getAllTweets()
-        .then(() => {
-          this.props.getTweets(this.props.match.params.page || 1, this.state.itemsPerPage);
-        });
+      this.props.getAllTweets();
     }
   }
 
-  handlePageChange(data) {
-    this.setState({
-      activePage: data.selected + 1
-    }, () => {
-      this.props.history.push('/tweets/' + this.state.activePage, this.state.itemsPerPage);
-      this.props.getTweets(this.state.activePage, this.state.itemsPerPage);
-    });
+  getNextTweets() {
+    if(this.state.hasMoreItems) {
+      this.setState({
+        page: this.state.page + 1,
+        tweets: [
+          ...this.state.tweets,
+          ...this.props.tweets.slice(this.state.page * this.props.itemsPerPage, (this.state.page + 1) * this.props.itemsPerPage)
+        ]
+      });
+    } else {
+      if (this.state.tweets.length + this.props.itemsPerPage >= this.props.tweets.length) {
+        console.log('false');
+        this.setState({
+          hasMoreItems: false
+        });
+      }
+    }
   }
 
   render() {
     return (
       <div>
         {!this.props.isFetching ? (
-          <div className="row">
-            {this.props.tweets.map((tweet, index) => {
-              return (
-                <Tweet
-                  key={tweet.id + Math.random().toString(32).substr(2, 5)}
-                  index={index}
-                />
-              );
-            })}
-
-            <div className="w-100">
-              <ReactPaginate
-                previousLabel='Previous'
-                nextLabel='Next'
-                breakLabel={<a href="#" onClick={e => e.preventDefault()}>...</a>}
-                breakClassName='page-link'
-                initialPage={+this.state.activePage - 1}
-                pageCount={this.props.numberOfTweets / this.state.itemsPerPage}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={this.handlePageChange}
-                containerClassName='pagination pagination-lg justify-content-center mt-3'
-                disableInitialCallback={true}
-                pageClassName='page-item'
-                nextClassName='page-item'
-                previousClassName='page-item'
-                pageLinkClassName='page-link'
-                previousLinkClassName='page-link'
-                nextLinkClassName='page-link'
-                activeClassName='active'
-              />
-            </div>
+          <div className='row'>
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={this.getNextTweets.bind(this)}
+              hasMore={this.state.hasMoreItems}
+            >
+              {this.state.tweets.map((tweet, index) => {
+                return (
+                  <Tweet
+                    key={index + Math.random().toString(32).substr(2, 5)}
+                    index={index}
+                  />
+                );
+              })}
+            </InfiniteScroll>
           </div>
         ) : (
           <Loader/>
@@ -88,13 +71,11 @@ class TweetList extends React.Component {
 }
 
 TweetList.propTypes = {
-  tweets:          PropTypes.array,
-  numberOfTweets:  PropTypes.number,
-  isFetching:      PropTypes.bool,
-  history:         PropTypes.object,
-  match:           PropTypes.object,
-  getTweets:       PropTypes.func.isRequired,
-  getAllTweets:    PropTypes.func.isRequired
+  tweets:         PropTypes.array,
+  itemsPerPage:   PropTypes.number,
+  isFetching:     PropTypes.bool,
+  match:          PropTypes.object,
+  getAllTweets:   PropTypes.func.isRequired
 };
 
 TweetList.defaultProps = {
@@ -108,13 +89,12 @@ TweetList.defaultProps = {
 const mapStateToProps = (state) => {
   return {
     isFetching:     state.isFetching,
-    tweets:         state.tweets,
-    numberOfTweets: state.numberOfTweets
+    itemsPerPage:   state.itemsPerPage,
+    tweets:         state.tweets
   };
 };
 
 const mapDispatchToProps = {
-  getTweets:       dataReducerActions.getTweets,
   getAllTweets:    dataReducerActions.getAllTweets
 };
 

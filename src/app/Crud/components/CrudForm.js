@@ -158,7 +158,7 @@ CrudForm.propTypes = {
   currentTweet:  PropTypes.number,
   tweets:        PropTypes.array,
   users:         PropTypes.array,
-  onSubmitClick: PropTypes.func.isRequired,
+  onSubmitClick: PropTypes.func,
   getUsers:      PropTypes.func.isRequired,
   updateTweet:   PropTypes.func.isRequired,
   addTweet:      PropTypes.func.isRequired
