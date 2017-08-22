@@ -1,8 +1,8 @@
 import React                   from 'react';
 import { Link                } from 'react-router-dom';
 import { connect             } from 'react-redux';
-import { Comment             } from './Comment';
 import { Loader              } from './Loader';
+import Comment                 from './Comment';
 import CrudForm                from './CrudForm';
 import PropTypes               from 'prop-types';
 import * as dataReducerActions from './../actions/DataReducerActions';
@@ -102,15 +102,7 @@ class TweetDetail extends React.Component {
               return (
                 <Comment
                   key={index}
-                  comment={comment}
-                  onDeleteComment={() => this.props.deleteComment(index)}
-                  onUpdateComment={(body) => {
-                    this.props.updateComment({
-                      ...this.props.comments[index],
-                      body: body
-                    },
-                    index);
-                  }}
+                  index={index}
                 />
               );
             })}
@@ -129,11 +121,9 @@ TweetDetail.propTypes = {
   users:            PropTypes.array,
   currentTweet:     PropTypes.number,
   isFetching:       PropTypes.bool,
-  getUsers:         PropTypes.func,
-  getTweetComments: PropTypes.func,
-  deleteComment:    PropTypes.func,
-  addComment:       PropTypes.func,
-  updateComment:    PropTypes.func
+  getUsers:         PropTypes.func.isRequired,
+  getTweetComments: PropTypes.func.isRequired,
+  addComment:       PropTypes.func.isRequired
 };
 
 TweetDetail.defaultProps = {
@@ -158,9 +148,7 @@ const mapDispatchToProps = {
   setComments:      dataReducerActions.setComments,
   getUsers:         dataReducerActions.getUsers,
   getTweetComments: dataReducerActions.getTweetComments,
-  deleteComment:    dataReducerActions.deleteComment,
-  addComment:       dataReducerActions.addComment,
-  updateComment:    dataReducerActions.updateComment
+  addComment:       dataReducerActions.addComment
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TweetDetail);

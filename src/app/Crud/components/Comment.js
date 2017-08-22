@@ -1,5 +1,7 @@
 import React     from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as dataReducerActions from './../actions/DataReducerActions';
 import {
   Card,
   CardBlock,
@@ -8,7 +10,7 @@ import {
   Input
 } from 'reactstrap';
 
-export class Comment extends React.Component {
+class Comment extends React.Component {
   constructor(props) {
     super(props);
 
@@ -25,14 +27,20 @@ export class Comment extends React.Component {
     event.preventDefault();
 
     if (this.state.isEditing) {
-      this.props.onUpdateComment(this.state.commentInput);
+      this.props.updateComment(
+        {
+          ...this.props.comments[this.props.index],
+          body: this.state.commentInput
+        },
+        this.props.index
+      );
     }
 
     if (this.state.commentInput.length) {
-      this.props.comment.body = this.state.commentInput;
+      this.props.comments[this.props.index].body = this.state.commentInput;
     } else {
       this.setState({
-        commentInput: this.props.comment.body
+        commentInput: this.props.comments[this.props.index].body
       });
     }
 
@@ -53,9 +61,10 @@ export class Comment extends React.Component {
         <div className='col-md-8 col-sm-10'>
           <Card className='m-2'>
             <CardHeader>
-              <h5>#{this.props.comment.id} {this.props.comment.name}</h5>
-              <p>By: <strong>{this.props.comment.email}</strong></p>
+              <h5>#{this.props.comments[this.props.index].id} {this.props.comments[this.props.index].name}</h5>
+              <p>By: <strong>{this.props.comments[this.props.index].email}</strong></p>
             </CardHeader>
+
             <CardBlock className='p-3'>
               {this.state.isEditing ? (
                 <div className='form-group'>
@@ -67,7 +76,7 @@ export class Comment extends React.Component {
                   </Input>
                 </div>
               ) : (
-                <p>{this.props.comment.body}</p>
+                <p>{this.props.comments[this.props.index].body}</p>
               )}
 
               <Button
@@ -77,7 +86,7 @@ export class Comment extends React.Component {
               </Button>
               <Button
                 color='danger'
-                onClick={(e) => { e.preventDefault(); this.props.onDeleteComment(); }}
+                onClick={(e) => { e.preventDefault(); this.props.deleteComment(this.props.index); }}
                 className='ml-2'>
                 Delete
               </Button>
@@ -90,11 +99,26 @@ export class Comment extends React.Component {
 }
 
 Comment.propTypes = {
-  comment: PropTypes.object,
-  onDeleteComment: PropTypes.func,
-  onUpdateComment: PropTypes.func
+  index:         PropTypes.number,
+  comments:      PropTypes.array,
+  updateComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired
 };
 
 Comment.defaultProps = {
-  comment: {}
+  index: 0,
+  comments: []
 };
+
+const mapStateToProps = (state) => {
+  return {
+    comments: state.comments
+  };
+};
+
+const mapDispatchToProps = {
+  updateComment: dataReducerActions.updateComment,
+  deleteComment: dataReducerActions.deleteComment
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);

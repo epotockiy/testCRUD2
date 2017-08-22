@@ -1,5 +1,6 @@
 import React     from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link  } from 'react-router-dom';
 import {
   Card,
@@ -10,28 +11,32 @@ import {
   CardHeader,
   Button
 } from 'reactstrap';
+import * as dataReducerActions      from './../actions/DataReducerActions';
 
-export const Tweet = (props) => {
+const Tweet = (props) => {
   return (
     <div className='col-md-6 col-sm-6'>
       <Card className='m-3'>
         <CardHeader>
-          <CardTitle>#{props.tweet.id} {props.tweet.title}</CardTitle>
+          <CardTitle>#{props.tweets[props.index].id} {props.tweets[props.index].title}</CardTitle>
         </CardHeader>
         <CardBlock className='p-3'>
-          <CardText>{props.tweet.body}</CardText>
+          <CardText>{props.tweets[props.index].body}</CardText>
         </CardBlock>
         <CardFooter>
           <Link
-            onClick={props.setCurrentTweet}
+            onClick={() => {
+              props.requestData();
+              props.setCurrentTweet(props.index);
+            }}
             className='btn btn-primary'
-            to={'/tweet-detail/' + props.tweet.id}>
+            to={'/tweet-detail/' + props.tweets[props.index].id}>
             Details
           </Link>
           <Button
             color='danger'
             className='ml-2'
-            onClick={(e) => { e.preventDefault(); props.onDeleteClick(); }}>
+            onClick={(e) => { e.preventDefault(); props.deleteTweet(props.index); }}>
             Delete
           </Button>
         </CardFooter>
@@ -41,11 +46,28 @@ export const Tweet = (props) => {
 };
 
 Tweet.propTypes = {
-  tweet:           PropTypes.object,
-  onDeleteClick:   PropTypes.func,
-  setCurrentTweet: PropTypes.func
+  index:           PropTypes.number,
+  tweets:          PropTypes.array,
+  setCurrentTweet: PropTypes.func.isRequired,
+  deleteTweet:     PropTypes.func.isRequired,
+  requestData:     PropTypes.func.isRequired
 };
 
 Tweet.defaultProps = {
-  tweet: {}
+  index: 0,
+  tweets: []
 };
+
+const mapStateToProps = (state) => {
+  return {
+    tweets: state.tweets
+  };
+};
+
+const mapDispatchToProps = {
+  setCurrentTweet: dataReducerActions.setCurrentTweet,
+  deleteTweet:     dataReducerActions.deleteTweet,
+  requestData:     dataReducerActions.requestData
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tweet);

@@ -13,6 +13,14 @@ import {
   REQUEST_DATA
 } from './actionTypes';
 
+function handleServerResponse(response) {
+  if (response.status > 199 && response.status < 301) {
+    return response.json();
+  } else {
+    console.warn('Error. Server responded with status:', response.status);
+  }
+}
+
 export function requestData() {
   return {
     type: REQUEST_DATA
@@ -46,8 +54,8 @@ export function getAllTweets() {
 
     return fetch('http://jsonplaceholder.typicode.com/posts')
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(tweets => dispatch(_receiveAllTweets(tweets)));
   };
@@ -66,8 +74,8 @@ export function getTweets(page, limit) {
 
     return fetch('http://jsonplaceholder.typicode.com/posts?_page=' + (page || 1)+ '&_limit=' + (limit || 10))
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(tweets => dispatch(_receiveTweets(tweets)));
   };
@@ -86,8 +94,8 @@ export function getUserTweets(id) {
 
     return fetch('http://jsonplaceholder.typicode.com/posts?userId=' + id)
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(tweets => dispatch(_getUserTweets(tweets)));
   };
@@ -106,8 +114,8 @@ export function addTweet(tweet) {
 
     return fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(() => dispatch(_addTweet(tweet)));
   };
@@ -127,8 +135,8 @@ export function updateTweet(tweet, index) {
 
     return fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(() => dispatch(_updateTweet(tweet, index)));
   };
@@ -143,10 +151,10 @@ function _deleteTweet(index) {
 
 export function deleteTweet(index) {
   return function(dispatch) {
-    return fetch('http://jsonplaceholder.typicode.com/posts/1', {method: 'DELETE', cache: 'reload'})
+    return fetch('http://jsonplaceholder.typicode.com/posts/' + (index + 1), {method: 'DELETE', cache: 'reload'})/*id*/
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(() => dispatch(_deleteTweet(index)));
   };
@@ -163,8 +171,8 @@ export function getTweetComments(id) {
   return function(dispatch) {
     return fetch('http://jsonplaceholder.typicode.com/posts/' + id + '/comments')
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(comments => dispatch(_setTweetComments(comments)));
   };
@@ -181,8 +189,8 @@ export function addComment(comment) {
   return function(dispatch) {
     return fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(() => dispatch(_addComment(comment)));
   };
@@ -200,8 +208,8 @@ export function updateComment(comment, index) {
   return function(dispatch) {
     return fetch('http://jsonplaceholder.typicode.com/posts', {method: 'POST', cache: 'reload'})
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(() => dispatch(_updateComment(comment, index)));
   };
@@ -216,10 +224,10 @@ function _deleteComment(id) {
 
 export function deleteComment(id) {
   return function(dispatch) {
-    return fetch('http://jsonplaceholder.typicode.com/posts/1', {method: 'DELETE', cache: 'reload'})
+    return fetch('http://jsonplaceholder.typicode.com/posts/' + (id + 1), {method: 'DELETE', cache: 'reload'})
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(() => dispatch(_deleteComment(id)));
   };
@@ -238,8 +246,8 @@ export function getUsers() {
 
     return fetch('http://jsonplaceholder.typicode.com/users')
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
+        response => handleServerResponse(response),
+        error => console.log('An error occurred. Check your fetch request.', error)
       )
       .then(users => dispatch(_receiveUsers(users)));
   };

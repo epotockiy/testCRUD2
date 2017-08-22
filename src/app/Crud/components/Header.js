@@ -7,8 +7,6 @@ import {
 } from 'reactstrap';
 
 export const Header = () => {
-  let isOpen = false;
-
   return (
     <div>
       <Navbar className='navbar-expand-lg navbar-dark bg-primary'>

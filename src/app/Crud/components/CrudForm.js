@@ -158,10 +158,10 @@ CrudForm.propTypes = {
   currentTweet:  PropTypes.number,
   tweets:        PropTypes.array,
   users:         PropTypes.array,
-  onSubmitClick: PropTypes.func,
-  getUsers:      PropTypes.func,
-  updateTweet:   PropTypes.func,
-  addTweet:      PropTypes.func
+  onSubmitClick: PropTypes.func.isRequired,
+  getUsers:      PropTypes.func.isRequired,
+  updateTweet:   PropTypes.func.isRequired,
+  addTweet:      PropTypes.func.isRequired
 };
 
 CrudForm.defaultProps = {

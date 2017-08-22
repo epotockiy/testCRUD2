@@ -2,8 +2,8 @@ import React                        from 'react';
 import ReactPaginate                from 'react-paginate';
 import PropTypes                    from 'prop-types';
 import { connect                  } from 'react-redux';
-import { Tweet                    } from './Tweet';
 import { Loader                   } from './Loader';
+import Tweet                        from './Tweet';
 import * as dataReducerActions      from './../actions/DataReducerActions';
 
 class TweetList extends React.Component {
@@ -51,12 +51,7 @@ class TweetList extends React.Component {
               return (
                 <Tweet
                   key={tweet.id + Math.random().toString(32).substr(2, 5)}
-                  tweet={tweet}
-                  onDeleteClick={() => { this.props.deleteTweet(index); }}
-                  setCurrentTweet={() => {
-                    this.props.requestData();
-                    this.props.setCurrentTweet(index);
-                  }}
+                  index={index}
                 />
               );
             })}
@@ -98,11 +93,8 @@ TweetList.propTypes = {
   isFetching:      PropTypes.bool,
   history:         PropTypes.object,
   match:           PropTypes.object,
-  setCurrentTweet: PropTypes.func,
-  deleteTweet:     PropTypes.func,
-  getTweets:       PropTypes.func,
-  getAllTweets:    PropTypes.func,
-  requestData:     PropTypes.func
+  getTweets:       PropTypes.func.isRequired,
+  getAllTweets:    PropTypes.func.isRequired
 };
 
 TweetList.defaultProps = {
@@ -122,11 +114,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setCurrentTweet: dataReducerActions.setCurrentTweet,
   getTweets:       dataReducerActions.getTweets,
-  getAllTweets:    dataReducerActions.getAllTweets,
-  deleteTweet:     dataReducerActions.deleteTweet,
-  requestData:     dataReducerActions.requestData
+  getAllTweets:    dataReducerActions.getAllTweets
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TweetList);

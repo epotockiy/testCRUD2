@@ -46,7 +46,7 @@ class UserList extends React.Component {
 UserList.propTypes = {
   users:      PropTypes.array,
   isFetching: PropTypes.bool,
-  getUsers:   PropTypes.func
+  getUsers:   PropTypes.func.isRequired
 };
 
 UserList.defaultProps = {
