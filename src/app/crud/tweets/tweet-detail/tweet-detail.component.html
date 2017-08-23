@@ -9,7 +9,7 @@
     </div>
 
     <div class="col-md-10">
-      <h3 class="text-center">Posted by: {{user.id}} {{user.name}}</h3>
+      <h3 class="text-center">Posted by: </h3>
     </div>
   </div>
 
@@ -47,11 +47,11 @@
       </textarea>
       <a *ngIf="isBodyEditing" href="#" (click)="onEditBodyClick($event)" class="small-text ml-1">Save</a>
     </div>
-</div>
+  </div>
 
   <h4 class="text-center p-3">Comments:</h4>
 
-  <app-add-comment-form>
+  <app-add-comment-form (addComment)="onAddComment($event)">
   </app-add-comment-form>
 
   <app-comment *ngFor="let comment of comments"

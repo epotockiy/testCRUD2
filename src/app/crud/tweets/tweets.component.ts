@@ -18,18 +18,29 @@ export class TweetsComponent implements OnInit {
   @Output() updateComment: EventEmitter<Comment> = new EventEmitter<Comment>();
   @Output() deleteComment: EventEmitter<number>  = new EventEmitter<number>();
 
-
   isTitleEditing = false;
   isBodyEditing  = false;
   newTweetTitle: string;
   newTweetBody:  string;
 
-
-  constructor() { }
+  constructor(private _crudService: CrudService) { }
 
   ngOnInit() {
     this.newTweetTitle = this.tweet.title;
     this.newTweetBody  = this.tweet.body;
+  }
+
+  addNewTweet(tweet: Tweet) {
+    this._crudService.addTweet(tweet)
+      .subscribe(
+        data => {
+          /*this.comments.unshift(comment);*/
+        },
+        error => {
+          console.log(error);
+        }
+      );
+      console.log(tweet);
   }
 
   onEditTitleClick(event) {

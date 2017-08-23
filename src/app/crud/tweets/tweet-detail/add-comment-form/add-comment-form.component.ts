@@ -30,8 +30,8 @@ export class AddCommentFormComponent {
       email: Math.random().toString(32).substr(2, 10)
     };
 
+    console.log(newComment);
     this.addComment.emit(newComment);
-
     this.addCommentForm.reset();
   }
 }

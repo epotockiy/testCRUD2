@@ -6,6 +6,7 @@ import { Comment                  } from '../../../models/comment';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })
+
 export class CommentComponent implements OnInit {
   @Input()  comment:       Comment;
   @Output() updateComment: EventEmitter<Comment> = new EventEmitter<Comment>();

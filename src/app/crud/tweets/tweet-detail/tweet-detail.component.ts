@@ -109,6 +109,18 @@ export class TweetDetailComponent implements OnInit {
     this.isBodyEditing = !this.isBodyEditing;
   }
 
+  onAddComment(comment: Comment) {
+    this._crudService.addComment(comment)
+      .subscribe(
+        data => {
+          this.comments.unshift(comment);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
   onUpdateComment(comment: Comment) {
     this._crudService.updateComment(comment)
       .subscribe(
