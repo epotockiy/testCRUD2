@@ -24,27 +24,30 @@ class TweetList extends React.Component {
   }
 
   getNextTweets() {
-    if(this.state.hasMoreItems) {
+    const newTweets = this.props.tweets.slice(this.state.page * this.props.itemsPerPage, (this.state.page + 1) * this.props.itemsPerPage);
+
+    if (this.props.tweets.length && !newTweets.length) {
       this.setState({
-        page: this.state.page + 1,
-        tweets: [
-          ...this.state.tweets,
-          ...this.props.tweets.slice(this.state.page * this.props.itemsPerPage, (this.state.page + 1) * this.props.itemsPerPage)
-        ]
+        hasMoreItems: false,
+        tweets: this.props.tweets
       });
-    } else {
-      if (this.state.tweets.length + this.props.itemsPerPage >= this.props.tweets.length) {
-        console.log('false');
-        this.setState({
-          hasMoreItems: false
-        });
-      }
+
+      return;
     }
+
+    this.setState({
+      tweets: [
+        ...this.state.tweets,
+        ...newTweets
+      ],
+      page: this.state.page + 1
+    });
   }
 
   render() {
     return (
       <div>
+        <h3 className='text-center mt-3'>Tweets:</h3>
         {!this.props.isFetching ? (
           <div className='row'>
             <InfiniteScroll
@@ -55,7 +58,7 @@ class TweetList extends React.Component {
               {this.state.tweets.map((tweet, index) => {
                 return (
                   <Tweet
-                    key={index + Math.random().toString(32).substr(2, 5)}
+                    key={index}
                     index={index}
                   />
                 );
@@ -74,7 +77,6 @@ TweetList.propTypes = {
   tweets:         PropTypes.array,
   itemsPerPage:   PropTypes.number,
   isFetching:     PropTypes.bool,
-  match:          PropTypes.object,
   getAllTweets:   PropTypes.func.isRequired
 };
 
@@ -82,8 +84,7 @@ TweetList.defaultProps = {
   tweets: [],
   numberOfTweets: 0,
   isFetching: true,
-  history: {},
-  match: {}
+  history: {}
 };
 
 const mapStateToProps = (state) => {

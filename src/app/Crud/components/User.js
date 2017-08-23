@@ -1,5 +1,6 @@
 import React                   from 'react';
 import PropTypes               from 'prop-types';
+import { Link                } from 'react-router-dom';
 import { connect             } from 'react-redux';
 import { Loader              } from './Loader';
 import Tweet                   from './Tweet';
@@ -21,6 +22,8 @@ class User extends React.Component {
   render() {
     return (
       <div className="container mt-3">
+        <Link className='btn btn-primary mb-3' to='/users'>Back</Link>
+
         {!this.props.isFetching ? (
           <Card className="col-12 ml-auto mr-auto">
             <CardBlock>
@@ -32,7 +35,7 @@ class User extends React.Component {
               />
               <div className="mt-3 mb-3 ml-5 mr-5">
                 <h4 className="card-title">{this.props.users[this.props.match.params.id - 1].name}</h4>
-                <p className="card-text">Nickname: {this.props.users[this.props.match.params.id - 1].username}</p>
+                <h6 className="card-text">Nickname: {this.props.users[this.props.match.params.id - 1].username}</h6>
                 <h5 className="card-text">Email: {this.props.users[this.props.match.params.id - 1].email}</h5>
                 <h6 className="card-text">Address: {this.props.users[this.props.match.params.id - 1].address.street}, {this.props.users[this.props.match.params.id - 1].address.suite}</h6>
               </div>
@@ -41,9 +44,9 @@ class User extends React.Component {
             <CardBlock>
               <h4 className="text-center">Tweets:</h4>
               <div className="row">
-                {this.props.tweets.map((tweet, index) =>
+                {this.props.userTweets.map((tweet, index) =>
                   <Tweet
-                    key={tweet.id + Math.random().toString(32).substr(2, 5)}
+                    key={index}
                     index={index}
                   />
                 )}
@@ -59,7 +62,7 @@ class User extends React.Component {
 }
 
 User.propTypes = {
-  tweets:          PropTypes.array,
+  userTweets:      PropTypes.array,
   users:           PropTypes.array,
   isFetching:      PropTypes.bool,
   match:           PropTypes.object,
@@ -67,7 +70,7 @@ User.propTypes = {
 };
 
 User.dafaultProps = {
-  tweets: [],
+  userTweets: [],
   users: [],
   isFetching: true,
   match: {}
@@ -75,7 +78,7 @@ User.dafaultProps = {
 
 const mapStateToProps = (state) => {
   return {
-    tweets:       state.tweets,
+    userTweets:   state.tweets,
     users:        state.users,
     isFetching:   state.isFetching
   };

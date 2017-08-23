@@ -4,6 +4,7 @@ import {
   SET_CURRENT_TWEET,
   SET_USERS,
   SET_ALL_TWEETS,
+  SET_USER_TWEETS,
   ADD_TWEET,
   ADD_COMMENT,
   UPDATE_TWEET,
@@ -19,9 +20,9 @@ const DataReducer = (
     tweets: [],
     comments: [],
     users: [],
+    userTweets: [],
     numberOfTweets: 1,
     currentTweet: 1,
-    currentUser: 1,
     itemsPerPage: 10
   },
   action) => {
@@ -39,6 +40,13 @@ const DataReducer = (
     return {
       ...state,
       tweets: action.payload,
+      isFetching: false
+    };
+
+  case SET_USER_TWEETS:
+    return {
+      ...state,
+      userTweets: action.payload,
       isFetching: false
     };
 

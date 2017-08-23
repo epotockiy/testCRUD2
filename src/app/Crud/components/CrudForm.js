@@ -15,6 +15,7 @@ class CrudForm extends React.Component {
     super(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.onButtonClick     = this.onButtonClick.bind(this);
 
     this.state = {
       inputTitle: '',
@@ -40,6 +41,48 @@ class CrudForm extends React.Component {
     this.setState({
       [field]: event.target.value
     });
+  }
+
+  onButtonClick(event) {
+    event.preventDefault();
+
+    if (this.props.type === 'comment') {
+      this.props.onSubmitClick({
+        title: this.state.inputTitle,
+        body:  this.state.inputBody,
+        user:  this.state.inputUser
+      });
+
+      this.setState({
+        inputTitle: '',
+        inputBody: '',
+        inputUser: 1
+      });
+    } else {
+      if (this.props.match.params.type === 'edit') {
+        this.props.updateTweet({
+          userId: this.state.inputUser,
+          id: this.props.tweets[this.props.currentTweet].id,
+          title: this.state.inputTitle,
+          body: this.state.inputBody
+        }, this.props.currentTweet)
+          .then(() => {
+            this.props.history.push('/tweet-detail/' + this.props.tweets[this.props.currentTweet].id);
+          });
+      } else {
+        if (this.props.match.params.type === 'add') {
+          this.props.addTweet({
+            userId: this.state.inputUser,
+            id: Math.floor(Math.random() * 100 + 500),
+            title: this.state.inputTitle,
+            body: this.state.inputBody
+          })
+            .then(() => {
+              this.props.history.push('/tweets');
+            });
+        }
+      }
+    }
   }
 
   render() {
@@ -69,7 +112,7 @@ class CrudForm extends React.Component {
 
           {(this.props.type !== 'comment') ? (
             <FormGroup>
-              <Label htmlFor='user' className='h4'>User id</Label>
+              <Label for='user' className='h4'>User id</Label>
               <Input
                 type='select'
                 id='user'
@@ -83,47 +126,7 @@ class CrudForm extends React.Component {
 
           <Button
             color='primary'
-            onClick={(event) => {
-              event.preventDefault();
-
-              if (this.props.type === 'comment') {
-                this.props.onSubmitClick({
-                  title: this.state.inputTitle,
-                  body:  this.state.inputBody,
-                  user:  this.state.inputUser
-                });
-
-                this.setState({
-                  inputTitle: '',
-                  inputBody: '',
-                  inputUser: 1
-                });
-              } else {
-                if (this.props.match.params.type === 'edit') {
-                  this.props.updateTweet({
-                    userId: this.state.inputUser,
-                    id: this.props.tweets[this.props.currentTweet].id,
-                    title: this.state.inputTitle,
-                    body: this.state.inputBody
-                  }, this.props.currentTweet)
-                    .then(() => {
-                      this.props.history.push('/tweet-detail/' + this.props.tweets[this.props.currentTweet].id);
-                    });
-                } else {
-                  if (this.props.match.params.type === 'add') {
-                    this.props.addTweet({
-                      userId: this.state.inputUser,
-                      id: Math.floor(Math.random() * 100 + 500),
-                      title: this.state.inputTitle,
-                      body: this.state.inputBody
-                    })
-                      .then(() => {
-                        this.props.history.push('/tweets');
-                      });
-                  }
-                }
-              }
-            }}
+            onClick={this.onButtonClick}
             disabled={!this.state.inputTitle.length || !this.state.inputBody.length}>
             {this.state.type === 'comment' ? 'Save' : 'Post'}
           </Button>

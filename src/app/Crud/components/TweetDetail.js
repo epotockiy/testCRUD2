@@ -49,7 +49,7 @@ class TweetDetail extends React.Component {
           <div className="m-3">
             <div className="row p-3">
               <div className="col-md-1">
-                <Link className="btn btn-primary" to='/tweets/1'>Back</Link>
+                <Link className="btn btn-primary" to='/tweets'>Back</Link>
               </div>
 
               <div className="col-md-5">
@@ -97,6 +97,10 @@ class TweetDetail extends React.Component {
             </div>
 
             <h4 className="text-center p-3">Comments:</h4>
+
+            {this.props.comments.length === 0 ? (
+              <h5 className='text-center text-info'>Nothing here yet!</h5>
+            ): null}
 
             {this.props.comments.map((comment, index) => {
               return (

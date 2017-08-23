@@ -10,3 +10,4 @@ export const ADD_COMMENT        = 'ADD_COMMENT';
 export const UPDATE_COMMENT     = 'UPDATE_COMMENT';
 export const DELETE_COMMENT     = 'DELETE_COMMENT';
 export const REQUEST_DATA       = 'REQUEST_DATA';
+export const SET_USER_TWEETS    = 'SET_USER_TWEETS';
