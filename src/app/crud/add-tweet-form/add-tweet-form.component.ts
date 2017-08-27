@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { CrudService } from '../services/crud.service';
 import { TweetsService } from '../services/tweets.service';
 
 import { Tweet } from '../models/tweet';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-add-tweet-form',
@@ -13,8 +14,10 @@ import { Tweet } from '../models/tweet';
   providers: [TweetsService]
 })
 
-export class AddTweetFormComponent {
+export class AddTweetFormComponent implements OnInit {
   addTweetForm: FormGroup;
+  usersList: User[];
+  isUsersLoaded = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -23,8 +26,21 @@ export class AddTweetFormComponent {
   ) {
     this.addTweetForm = this._formBuilder.group({
       'tweetTitle': [null, Validators.required],
-      'tweetBody': [null, Validators.required]
+      'tweetBody': [null, Validators.required],
+      'tweetOwner': [null, Validators.required]
     });
+  }
+  ngOnInit() {
+    this._crudService.getUsers()
+      .subscribe(
+        users => {
+          this.usersList = users;
+          this.isUsersLoaded = true;
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   addNewTweet(tweet: Tweet) {
@@ -42,7 +58,7 @@ export class AddTweetFormComponent {
   onSubmit(tweet) {
     const newTweet = {
       id: Math.floor(Math.random() * 100),
-      userId: Math.floor(Math.random() * 100),
+      userId: tweet.tweetOwner,
       title: tweet.tweetTitle,
       body: tweet.tweetBody
     };

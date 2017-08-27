@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CrudService                      } from './services/crud.service';
 import { AddTweetFormComponent            } from './add-tweet-form/add-tweet-form.component';
 import { TweetsModule                     } from './tweets/tweets.module';
+import { UsersModule                      } from './users/users.module';
 import { PageNotFoundComponent            } from './page-not-found/page-not-found.component';
 import { CrudComponent                    } from './crud.component';
 import { CrudRoutingModule                } from './crud.routing-module';
@@ -15,6 +16,7 @@ import { CrudRoutingModule                } from './crud.routing-module';
     FormsModule,
     ReactiveFormsModule,
     TweetsModule,
+    UsersModule,
     CrudRoutingModule
   ],
   exports: [

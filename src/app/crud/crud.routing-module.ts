@@ -15,6 +15,11 @@ const crudRoutes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'users',
+    redirectTo: 'users',
+    pathMatch: 'full'
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   }

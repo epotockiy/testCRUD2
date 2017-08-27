@@ -1,20 +1,31 @@
-<div *ngIf="!isDataLoaded">
+<div *ngIf="!isUserLoaded">
   <h3 class="text-center">Loading...</h3>
 </div>
 
-<div class="m-3" *ngIf="isDataLoaded">
-  <h3 class="text-center">All tweets:</h3>
+<div class="m-3" *ngIf="isUserLoaded">
+  <div class="row p-3">
+    <div class="col-md-1">
+      <button class="btn btn-primary" (click)="goBack()">Back</button>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="">
+      {{user.name}}
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="!isUserTweetsLoaded">
+  <h3 class="text-center">Loading Tweets...</h3>
+</div>
+
+<div class="m-3" *ngIf="isUserTweetsLoaded">
+  <h3 class="text-center">User tweets:</h3>
 
   <div class="row">
-    <div class="col-md-6 col-sm-6"
-         *ngFor="let tweet of tweetList"
-         infinite-scroll
-         debounce
-         [infiniteScrollDistance]="-1"
-         [infiniteScrollThrottle]="300"
-         [infiniteScrollDisabled]="!hasMoreTweets"
-         (scrolled)="onScroll()"
-    >
+    <div class="col-md-6 col-sm-6" *ngFor="let tweet of userTweets">
       <div class="card m-3">
         <div class="card-header">
           <h4 class="card-title">
@@ -36,3 +47,4 @@
     </div>
   </div>
 </div>
+

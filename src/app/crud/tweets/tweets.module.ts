@@ -1,6 +1,7 @@
 import { NgModule                         } from '@angular/core';
 import { CommonModule                     } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 import { CommentComponent                 } from './tweet-detail/comment/comment.component';
 import { TweetsComponent                  } from './tweets.component';
@@ -13,6 +14,7 @@ import { TweetDetailComponent             } from './tweet-detail/tweet-detail.co
   imports: [
     CommonModule,
     FormsModule,
+    InfiniteScrollModule,
     ReactiveFormsModule,
     TweetsRoutingModule
   ],

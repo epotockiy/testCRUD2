@@ -6,18 +6,11 @@ import { Tweet          } from '../models/tweet';
 import { Comment        } from '../models/comment';
 import { contentHeaders } from './headers';
 import 'rxjs/add/operator/map';
+import {User} from '../models/user';
 
 @Injectable()
 export class CrudService {
   constructor(private _http: Http) { }
-
-  getUser (id: number): Observable<any> {
-    const url = `http://jsonplaceholder.typicode.com/users/${id}`;
-
-    return this._http.get(url, { headers: contentHeaders })
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
-  }
 
   getTweets (): Observable<Tweet[]> {
     const url = `http://jsonplaceholder.typicode.com/posts`;
@@ -101,6 +94,30 @@ export class CrudService {
     const url = `http://jsonplaceholder.typicode.com/posts/1`;
 
     return this._http.delete(url, { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  getUsers (): Observable<User[]> {
+    const url = `http://jsonplaceholder.typicode.com/users`;
+
+    return this._http.get(url, { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  getUser (id: number): Observable<any> {
+    const url = `http://jsonplaceholder.typicode.com/users/${id}`;
+
+    return this._http.get(url, { headers: contentHeaders })
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  getUserTweets (id: number): Observable<any> {
+    const url = `http://jsonplaceholder.typicode.com/posts?userId=${id}`;
+
+    return this._http.get(url, { headers: contentHeaders })
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }

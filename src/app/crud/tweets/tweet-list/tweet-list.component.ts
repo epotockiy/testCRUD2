@@ -13,7 +13,11 @@ import { Tweet } from '../../models/tweet';
 })
 export class TweetListComponent implements OnInit {
   tweetList: Tweet[];
+  allTweets: Tweet[];
   isDataLoaded = false;
+  hasMoreTweets = true;
+  page = 0;
+  itemsPerPage = 10;
 
   constructor(
     private _crudService: CrudService,
@@ -30,7 +34,9 @@ export class TweetListComponent implements OnInit {
       .subscribe(
         tweets => {
           this._tweetsService.getLocalTweets().then(localTweets => {
-            this.tweetList = localTweets.concat(tweets);
+            const _tweets = localTweets.concat(tweets);
+            this.allTweets = localTweets.concat(tweets);
+            this.tweetList = _tweets.splice(0, this.itemsPerPage);
             this.isDataLoaded = true;
           });
         },
@@ -38,6 +44,22 @@ export class TweetListComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  onScroll() {
+    const { allTweets, tweetList, page, itemsPerPage } = this;
+    const newTweets = allTweets.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
+
+    if (allTweets.length && !newTweets.length) {
+      this.hasMoreTweets = false;
+      return;
+    }
+
+    this.tweetList = [
+      ...tweetList,
+      ...newTweets
+    ];
+    this.page = page + 1;
   }
 
   onDetailsClick(event, id: number) {

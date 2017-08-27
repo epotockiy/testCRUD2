@@ -30,6 +30,19 @@
         </div>
       </div>
 
+      <div class="form-group col-md-5">
+        <select
+          id="weet-owner"
+          [formControl]="addTweetForm.controls['tweetOwner']"
+        >
+          <option *ngFor="let user of usersList" value="{{user.id}}">{{user.id}} {{user.name}}</option>
+        </select>
+        <div *ngIf="addTweetForm.controls['tweetOwner'].errors && addTweetForm.controls['tweetOwner'].touched"
+             class="alert alert-danger">
+          Please, choose tweet owner.
+        </div>
+      </div>
+
       <div class="col-md-1">
         <button type="submit"
                 class="btn btn-danger"
