@@ -150,6 +150,11 @@ export class TweetDetailComponent implements OnInit {
       );
   }
 
+  onUserClick(event, id: number) {
+    event.preventDefault();
+    this._router.navigate(['/users', id]);
+  }
+
   onDeleteComment(id: number) {
     this._crudService.deleteComment(id)
       .subscribe(

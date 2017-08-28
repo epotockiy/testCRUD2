@@ -9,12 +9,17 @@
     </div>
   </div>
 
-  <div class="">
-    <div class="">
-      {{user.name}}
+  <img
+    className="float-left m-3"
+    class="user-img"
+    src="https://avatars2.githubusercontent.com/u/5502029?v=4"
+    alt="User avatar"
+    />
+    <div className="mt-3 mb-3 ml-5 mr-5">
+      <h3 className="card-text">Username: {{user.name}}</h3>
+      <h5>Email: {{user.email}}</h5>
+      <h5>Addrres: {{user.address.street}} {{user.address.suite}}</h5>
     </div>
-
-  </div>
 </div>
 
 <div *ngIf="!isUserTweetsLoaded">
@@ -47,4 +52,3 @@
     </div>
   </div>
 </div>
-

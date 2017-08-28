@@ -15,6 +15,10 @@
 
   <div class="card">
     <div class="card-header">
+      <a href="#" class="user-link" (click)="onUserClick($event, user.id)">
+        <img src="https://avatars2.githubusercontent.com/u/5502029?v=4" alt="user avatar">
+        <h5>{{user.name}}</h5>
+      </a>
       <h4 *ngIf="!isTitleEditing" class="card-title">
         #{{tweet.id}} {{tweet.title}}
         <a class="small-text" href="#" (click)="onEditTitleClick($event)">Change title</a>
